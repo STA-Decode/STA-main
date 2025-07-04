@@ -18,7 +18,7 @@ I won't explain the basics of java, but i will explain FTC-programming. I'd reco
 
 
 package org.firstinspires.ftc.teamcode.RobotParts;
-
+import  com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -40,10 +40,10 @@ public class driveTrain
         rightBack = map.get(DcMotorEx.class, "right_back");
 
         //These lines make sure that when the motor is unpowered, it won't move due to external forces like gravity, but it's actively trying to stay in it's current position
-        rightBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftFront.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     //The method rotate() is used whenever we wanna... you guessed it: rotate
@@ -59,11 +59,11 @@ public class driveTrain
     }
 
     //The method drive() is a lot like rotate()
-    public void drive(double speed){
-        leftFront.setPower(speed);
-        leftBack.setPower(speed);
-        rightFront.setPower(-speed);
-        rightBack.setPower(-speed);
+    public void drive(double y, double x,double rotate, double speed){
+        leftFront.setPower(speed*(y - x + rotate));
+        leftBack.setPower(speed*(y + x + rotate));
+        rightFront.setPower(-speed*(y + x - rotate));
+        rightBack.setPower(-speed*(y - x - rotate));
     }
 
 }

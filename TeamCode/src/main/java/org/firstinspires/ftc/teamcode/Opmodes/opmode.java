@@ -11,17 +11,26 @@ import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
 @TeleOp(name = "Opmode", group = "TeleOp")
 public class opmode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    driveTrain driveTrain = new driveTrain();
+    driveTrain drivetrain = new driveTrain();
 
     @Override
     public void runOpMode() throws InterruptedException {
-        driveTrain.init(hardwareMap);
+        drivetrain.init(hardwareMap);
+
 
         waitForStart();
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            //Well do something fun here, you will wanna read controller input, and use the methods made in the drivetrain
+            //We'll do something fun here, you will wanna read controller input, and use the methods made in the drivetrain
+            double y = gamepad1.left_stick_y;
+            double x = gamepad1.left_stick_x;
+            double rotate = -gamepad1.right_stick_x;
+            double speed = 0.7 *gamepad1.right_trigger;
+
+            drivetrain.drive(y,x,rotate,speed);
+
+
         }
 
 
