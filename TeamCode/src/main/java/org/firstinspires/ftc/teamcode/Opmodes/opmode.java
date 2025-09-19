@@ -29,6 +29,7 @@ public class opmode extends LinearOpMode {
         double chainSpeed = 0;
         double level = 0;
         double power = 0;
+        boolean intakeAllowed = true;
 
         while (opModeIsActive()) {
             //We'll do something fun here, you will wanna read controller input, and use the methods made in the drivetrain
@@ -37,14 +38,22 @@ public class opmode extends LinearOpMode {
             double rotate = -gamepad1.right_stick_x;
             double speed = 1 *gamepad1.right_trigger;
 
-            if (gamepad1.y)
+            if (gamepad1.y && intakeAllowed)
             {
-                spin = 1;
+                if (spin == 0)
+                {
+                    spin = 1;
+                }
+                else
+                {
+                    spin = 0;
+                }
+                intakeAllowed = false;
             }
 
-            if (gamepad1.b)
+            if (!gamepad1.y)
             {
-                spin = 0;
+                intakeAllowed = true;
             }
 
             if (gamepad1.dpad_up)
