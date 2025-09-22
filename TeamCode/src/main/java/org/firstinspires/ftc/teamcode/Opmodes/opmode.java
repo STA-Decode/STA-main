@@ -101,7 +101,7 @@ public class opmode extends LinearOpMode {
             drivetrain.drive(y,x,rotate,speed);
             Motors.intakeMethod(spin);
             Motors.shootingMethod(power);
-            Servos.Transport(chainSpeed);
+            Motors.transport(chainSpeed);
             Servos.Lift(level);
         }
 
