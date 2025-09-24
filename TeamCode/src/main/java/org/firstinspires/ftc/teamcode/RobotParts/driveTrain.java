@@ -61,9 +61,9 @@ public class driveTrain
     //The method drive() is a lot like rotate()
     public void drive(double y, double x,double rotate, double speed){
         leftFront.setPower(speed*(y - x + rotate));
-        leftBack.setPower(speed*(-y + x + rotate));
+        leftBack.setPower(speed*(y + x + rotate));
         rightFront.setPower(-speed*(y + x - rotate));
-        rightBack.setPower(-speed*(-y - x - rotate));
+        rightBack.setPower(-speed*(y - x - rotate));
     }
 
 }

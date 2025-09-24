@@ -51,7 +51,7 @@ public class Motors
         //quick note: a negative speed will make it turn counterclockwise
 
         //Here, we are setting the power (a value between -1 and 1) to our motors
-        intake.setPower(spin);
+        intake.setPower(-spin);
 
        }
     public void shootingMethod(double power){
