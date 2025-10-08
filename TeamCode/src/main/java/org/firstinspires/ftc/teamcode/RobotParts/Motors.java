@@ -53,7 +53,7 @@ public class Motors
        }
     public void shootingMethod(double power){
 
-        shooter.setPower(power);
+        shooter.setPower(-power);
 
     }
     public void transport(double chainspeed){
