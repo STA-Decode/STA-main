@@ -59,11 +59,23 @@ public class driveTrain
     }
 
     //The method drive() is a lot like rotate()
-    public void drive(double y, double x,double rotate, double speed){
+
+    public void drive(double y, double x,double rotate, double speed, double driveMode){
+
+        if (driveMode == 0){
         leftFront.setPower(speed*(y - x + rotate));
         leftBack.setPower(speed*(y + x + rotate));
-        rightFront.setPower(-speed*(y + x - rotate));
+        rightFront.setPower(-speed*(-y - x + rotate));
         rightBack.setPower(-speed*(y - x - rotate));
+
     }
+        else{
+        leftFront.setPower(speed*(-y - x + rotate));
+        leftBack.setPower(speed*(y - x + rotate));
+        rightFront.setPower(-speed*(-y + x + rotate));
+        rightBack.setPower(-speed*(-y - x - rotate));
+    }
+    }
+
 
 }

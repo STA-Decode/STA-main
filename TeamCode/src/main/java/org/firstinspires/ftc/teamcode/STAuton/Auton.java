@@ -14,21 +14,22 @@ public class Auton extends LinearOpMode {
     //Slaat op hoe lang de robot is geinitialiseerd
 
 
-
-
-
-
     @Override
     public void runOpMode() throws InterruptedException {
-
         driveTrain driveTrain = new driveTrain();
-
         driveTrain.init(hardwareMap);
 
         waitForStart();
         double startuptime = runtime.milliseconds();
         while (opModeIsActive()) {
 
+            if ((runtime.milliseconds() - startuptime) > 600)
+            {
+                driveTrain.drive(0, 0, 0, 0, 0);
+            } else
+            {
+                driveTrain.drive(1, 0, 0, -1, 0);
+            }
 
         }
     }

@@ -14,31 +14,31 @@ import org.firstinspires.ftc.teamcode.RobotParts.Servos;
 public class opmode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     driveTrain drivetrain = new driveTrain();
-    Motors Motors = new Motors();
-    Servos Servos = new Servos();
+    //Motors Motors = new Motors();
+    //Servos Servos = new Servos();
     @Override
     public void runOpMode() throws InterruptedException {
         drivetrain.init(hardwareMap);
-        Motors.init(hardwareMap);
-        Servos.init(hardwareMap);
+        //Motors.init(hardwareMap);
+        //Servos.init(hardwareMap);
 
         waitForStart();
         if (isStopRequested()) return;
 
+        double driveMode = 0;
         double spin = 0;
         double chainSpeed = 0;
         double level = 0;
         double power = 0;
         boolean intakeAllowed = true;
         boolean transportAllowed = true;
-        boolean elevatorAllowed = true;
-
+        boolean modeChangeAllowed = true;
         while (opModeIsActive()) {
             //We'll do something fun here, you will wanna read controller input, and use the methods made in the drivetrain
             double y = gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x;
             double rotate = -gamepad1.right_stick_x;
-            double speed = 1 *gamepad1.right_trigger;
+            double speed = 1;
 
             //This is the intake
             if (gamepad1.dpad_up && intakeAllowed)
@@ -95,14 +95,27 @@ public class opmode extends LinearOpMode {
                 power = 0;
             }
 
+            if (gamepad1.y && modeChangeAllowed)
+            {
+                if (driveMode == 0)
+                {
+                    driveMode = 1;
+                }
+                else if (driveMode == 1)
+                {
+                    driveMode = 0;
+                }
+
+                modeChangeAllowed = false;
+            }
 
 
 
-            drivetrain.drive(y,x,rotate,speed);
-            Motors.intakeMethod(spin);
-            Motors.shootingMethod(power);
-            Motors.transport(chainSpeed);
-            Servos.Lift(level);
+            drivetrain.drive(y,x,rotate,speed,driveMode);
+            //Motors.intakeMethod(spin);
+            //Motors.shootingMethod(power);
+            //Motors.transport(chainSpeed);
+            //Servos.Lift(level);
         }
 
 
