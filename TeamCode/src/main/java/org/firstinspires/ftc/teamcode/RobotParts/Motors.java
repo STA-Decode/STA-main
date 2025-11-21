@@ -27,20 +27,21 @@ public class Motors
 {
     //Here, we declare our parts and other stuff, so that the computer knows they exist, and what type they are (type like servo, motor, etc.)
     private DcMotorEx intake;
-    private DcMotorEx shooter;
-    private DcMotorEx chain;
+    private DcMotorEx shooter1;
+    private DcMotorEx shooter2;
+    private DcMotorEx transfer;
     //When you start your main program you have to call init() on every class used.
     //In the init, we do stuff that has to happen exactly once in our program
     public void init(HardwareMap map){
         //Here, we are linking the motors we just declared with actual motors on our robot. In your HardwareMap, you will assign a name to different motors (making the HardwareMap doesn't happen in the code, just ask someone how to do it and be prepared for a lot of following wires)
         intake = map.get(DcMotorEx.class, "intake");
-        shooter = map.get(DcMotorEx.class, "shooter");
-        //chain = map.get(DcMotorEx.class, "rightShooter");
+        shooter1 = map.get(DcMotorEx.class, "shooter1");
+        shooter2 = map.get(DcMotorEx.class, "shooter2");
+        transfer = map.get(DcMotorEx.class, "transfer");
 
         //These lines make sure that when the motor is unpowered, it won't move due to external forces like gravity, but it's actively trying to stay in it's current position
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //chain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        transfer.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     //The method rotate() is used whenever we wanna... you guessed it: rotate
@@ -53,11 +54,12 @@ public class Motors
        }
     public void shootingMethod(double power){
 
-        shooter.setPower(-power);
+        shooter1.setPower(-power);
+        shooter2.setPower(power);
 
     }
-    public void transport(double chainspeed){
+    public void transferMethod(double transferPower){
 
-       // chain.setPower(chainspeed);
+       transfer.setPower(transferPower);
     }
 }

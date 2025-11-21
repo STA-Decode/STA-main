@@ -70,10 +70,10 @@ public class driveTrain
 
     }
         else{
-        leftFront.setPower(speed*(-y - x + rotate));
-        leftBack.setPower(speed*(y - x + rotate));
-        rightFront.setPower(-speed*(-y + x + rotate));
-        rightBack.setPower(-speed*(-y - x - rotate));
+        leftFront.setPower(speed*(+y + x + rotate));
+        leftBack.setPower(speed*(-y + x + rotate));
+        rightFront.setPower(-speed*(+y - x + rotate));
+        rightBack.setPower(-speed*(+y + x - rotate));
     }
     }
 

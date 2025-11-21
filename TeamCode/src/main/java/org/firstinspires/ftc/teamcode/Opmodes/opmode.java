@@ -7,32 +7,39 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
 import org.firstinspires.ftc.teamcode.RobotParts.Motors;
 import org.firstinspires.ftc.teamcode.RobotParts.Servos;
-
+import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 
 //the namee is how this Opmode will show up on the driver-hub
 @TeleOp(name = "Opmode", group = "TeleOp")
 public class opmode extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     driveTrain drivetrain = new driveTrain();
-    //Motors Motors = new Motors();
+    Motors Motors = new Motors();
     //Servos Servos = new Servos();
+    ServoTest ServoTest = new ServoTest();
     @Override
     public void runOpMode() throws InterruptedException {
         drivetrain.init(hardwareMap);
-        //Motors.init(hardwareMap);
+        Motors.init(hardwareMap);
         //Servos.init(hardwareMap);
+        ServoTest.init(hardwareMap);
 
         waitForStart();
         if (isStopRequested()) return;
-
         double driveMode = 0;
         double spin = 0;
         double chainSpeed = 0;
         double level = 0;
         double power = 0;
+        double SevenPos = 0;
         boolean intakeAllowed = true;
         boolean transportAllowed = true;
         boolean modeChangeAllowed = true;
+        boolean servoChangeAllowed = true;
+        boolean shooterChangeAllowed = true;
+        double servoTimer = 0;
+        double transferPower = 0;
+
         while (opModeIsActive()) {
             //We'll do something fun here, you will wanna read controller input, and use the methods made in the drivetrain
             double y = gamepad1.left_stick_y;
@@ -41,7 +48,7 @@ public class opmode extends LinearOpMode {
             double speed = 1;
 
             //This is the intake
-            if (gamepad1.dpad_up && intakeAllowed)
+            if (gamepad1.x && intakeAllowed)
             {
                 if (spin == 0)
                 {
@@ -53,7 +60,7 @@ public class opmode extends LinearOpMode {
                 }
                 intakeAllowed = false;
             }
-            if (!gamepad1.dpad_up)
+            if (!gamepad1.x)
             {
                 intakeAllowed = true;
             }
@@ -64,10 +71,12 @@ public class opmode extends LinearOpMode {
                 if (chainSpeed == 0)
                 {
                     chainSpeed = 1;
+                    transferPower = 1;
                 }
                 else
                 {
                     chainSpeed = 0;
+                    transferPower = 0;
                 }
                 transportAllowed = false;
             }
@@ -88,11 +97,17 @@ public class opmode extends LinearOpMode {
                 level = 0;
             }
 
-            if (gamepad1.a)
+            if (gamepad1.a && shooterChangeAllowed)
             {
-                power = 1;
-            } else {
-                power = 0;
+                if (power == 0)
+                {
+                    power = 1;
+                }
+                else if (power == 1)
+                {
+                    power = 0;
+                }
+
             }
 
             if (gamepad1.y && modeChangeAllowed)
@@ -108,13 +123,41 @@ public class opmode extends LinearOpMode {
 
                 modeChangeAllowed = false;
             }
+            if (gamepad1.b && servoChangeAllowed)
+            {
+                SevenPos = 0.475;
+
+                servoTimer = getRuntime();
+            }
+
+            if (getRuntime() >= servoTimer + 0.4)
+            {
+                servoChangeAllowed = false;
+            }
+
+
+            if (!servoChangeAllowed)
+            {
+                SevenPos = 0;
+            }
+            if (SevenPos == 0)
+            {
+            servoChangeAllowed = true;
+            }
+
+
+
 
 
 
             drivetrain.drive(y,x,rotate,speed,driveMode);
-            //Motors.intakeMethod(spin);
-            //Motors.shootingMethod(power);
-            //Motors.transport(chainSpeed);
+            ServoTest.setSevenPos(SevenPos);
+            telemetry.addData("servopos",SevenPos);
+            telemetry.addData("toggle",servoChangeAllowed);
+            telemetry.update();
+            Motors.intakeMethod(spin);
+            Motors.shootingMethod(power);
+            Motors.transferMethod(transferPower);
             //Servos.Lift(level);
         }
 
