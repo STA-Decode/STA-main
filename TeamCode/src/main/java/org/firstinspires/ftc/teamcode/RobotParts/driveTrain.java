@@ -20,6 +20,7 @@ I won't explain the basics of java, but i will explain FTC-programming. I'd reco
 package org.firstinspires.ftc.teamcode.RobotParts;
 import  com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class driveTrain
@@ -44,11 +45,17 @@ public class driveTrain
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+
     }
 
-    //The method rotate() is used whenever we wanna... you guessed it: rotate
+    /**
+     * The method rotate() is used whenever we wanna... you guessed it: rotate
+     * @param speed the speed with which to rotate
+     */
     public void rotate(double speed){
-        //quick note: a negative speed will make it turn counterclockwise
+        //quick note: a positive speed will make it turn counterclockwise
 
         //Here, we are setting the power (a value between -1 and 1) to our motors
         leftFront.setPower(speed);
@@ -58,23 +65,31 @@ public class driveTrain
         //IMPORTANT: if you notice the robots wheels are not turning in the direction you expected, it is probably because of the fact you used gears in your robot. This can make the turning-direction flip, so if thats the case, just put a "-" before "speed" for the motor having problems
     }
 
+    public static double[] toPolar(double x, double y) {
+        double r = Math.sqrt(x * x + y * y);
+        double theta = Math.atan2(y,x);
+        return new double[]{r,theta};
+    }
+
+    public static double[] toCartesian(double r, double theta) {
+        double x = r * Math.cos(theta);
+        double y = r * Math.sin(theta);
+        return new double[]{x,y};
+    }
+
+    public static double exagerateR(double r) {return Math.sin(2*Math.PI*r) /9 + r;}
+
+
     //The method drive() is a lot like rotate()
-
-    public void drive(double y, double x,double rotate, double speed, double driveMode){
-
-        if (driveMode == 0){
-        leftFront.setPower(speed*(y - x + rotate));
-        leftBack.setPower(speed*(y + x + rotate));
-        rightFront.setPower(-speed*(-y - x + rotate));
-        rightBack.setPower(-speed*(y - x - rotate));
-
-    }
-        else{
-        leftFront.setPower(speed*(+y + x + rotate));
-        leftBack.setPower(speed*(-y + x + rotate));
-        rightFront.setPower(-speed*(+y - x + rotate));
-        rightBack.setPower(-speed*(+y + x - rotate));
-    }
+    public void drive(double r, double theta, double rotate, boolean driveSideways){
+        if (driveSideways) theta = theta + Math.PI * 0.5;
+        double[] cartesianCoordinates = toCartesian(r, theta);
+        double x = cartesianCoordinates[0];
+        double y = cartesianCoordinates[1];
+        leftFront.setPower(x - y - rotate);
+        leftBack.setPower(x + y - rotate);
+        rightBack.setPower(x - y + rotate);
+        rightFront.setPower(x + y + rotate);
     }
 
 

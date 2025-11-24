@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
@@ -9,10 +11,11 @@ import org.firstinspires.ftc.teamcode.RobotParts.Motors;
 import org.firstinspires.ftc.teamcode.RobotParts.Servos;
 import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 
+import java.util.List;
+
 //the namee is how this Opmode will show up on the driver-hub
 @TeleOp(name = "Opmode", group = "TeleOp")
 public class opmode extends LinearOpMode {
-    private ElapsedTime runtime = new ElapsedTime();
     driveTrain drivetrain = new driveTrain();
     Motors Motors = new Motors();
     //Servos Servos = new Servos();
@@ -34,21 +37,33 @@ public class opmode extends LinearOpMode {
         double SevenPos = 0;
         boolean intakeAllowed = true;
         boolean transportAllowed = true;
-        boolean modeChangeAllowed = true;
+        boolean driveSideways = false;
         boolean servoChangeAllowed = true;
         boolean shooterChangeAllowed = true;
         double servoTimer = 0;
         double transferPower = 0;
 
+        Gamepad currentGamepad = new Gamepad(), previousGamepad = new Gamepad();
+
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule hub : allHubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
+
         while (opModeIsActive()) {
-            //We'll do something fun here, you will wanna read controller input, and use the methods made in the drivetrain
-            double y = gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x;
-            double rotate = -gamepad1.right_stick_x;
+            previousGamepad.copy(currentGamepad);
+            currentGamepad.copy(gamepad1);
+
+            double y = -currentGamepad.left_stick_x;
+            double x = -currentGamepad.left_stick_y;
+            double rotate = -currentGamepad.right_stick_x;
+            double[] polarCoordinates = driveTrain.toPolar(x, y);
+            polarCoordinates[0] = driveTrain.exagerateR(polarCoordinates[0]);
             double speed = 1;
 
             //This is the intake
-            if (gamepad1.x && intakeAllowed)
+            if (currentGamepad.x && intakeAllowed)
             {
                 if (spin == 0)
                 {
@@ -60,13 +75,13 @@ public class opmode extends LinearOpMode {
                 }
                 intakeAllowed = false;
             }
-            if (!gamepad1.x)
+            if (!currentGamepad.x)
             {
                 intakeAllowed = true;
             }
 
             //this is the chain
-            if (gamepad1.dpad_down && transportAllowed)
+            if (currentGamepad.dpad_down && transportAllowed)
             {
                 if (chainSpeed == 0)
                 {
@@ -81,78 +96,54 @@ public class opmode extends LinearOpMode {
                 transportAllowed = false;
             }
 
-            if (!gamepad1.dpad_down)
+            if (!currentGamepad.dpad_down)
             {
                 transportAllowed = true;
             }
 
 
-            if (gamepad1.left_bumper)
+            if (currentGamepad.left_bumper)
             {
                 level = 1;
             }
 
-            if (gamepad1.right_bumper)
+            if (currentGamepad.right_bumper)
             {
                 level = 0;
             }
 
-            if (gamepad1.a && shooterChangeAllowed)
-            {
-                if (power == 0)
-                {
-                    power = 1;
-                }
-                else if (power == 1)
-                {
-                    power = 0;
-                }
-
+            if (currentGamepad.a && !previousGamepad.a) {
+                if (power == 0) power = 1;
+                else power = 0;
             }
 
-            if (gamepad1.y && modeChangeAllowed)
-            {
-                if (driveMode == 0)
-                {
-                    driveMode = 1;
-                }
-                else if (driveMode == 1)
-                {
-                    driveMode = 0;
-                }
-
-                modeChangeAllowed = false;
+            if (currentGamepad.y && !previousGamepad.y) {
+                if (driveSideways) driveSideways = false;
+                else driveSideways = true;
             }
-            if (gamepad1.b && servoChangeAllowed)
-            {
+
+            if (currentGamepad.b && servoChangeAllowed) {
                 SevenPos = 0.475;
 
                 servoTimer = getRuntime();
             }
 
-            if (getRuntime() >= servoTimer + 0.4)
-            {
+            if (getRuntime() >= servoTimer + 0.4) {
                 servoChangeAllowed = false;
             }
 
 
-            if (!servoChangeAllowed)
-            {
+            if (!servoChangeAllowed) {
                 SevenPos = 0;
             }
-            if (SevenPos == 0)
-            {
-            servoChangeAllowed = true;
+            if (SevenPos == 0) {
+                servoChangeAllowed = true;
             }
 
 
-
-
-
-
-            drivetrain.drive(y,x,rotate,speed,driveMode);
+            drivetrain.drive(polarCoordinates[0], polarCoordinates[1], rotate, driveSideways);
             ServoTest.setSevenPos(SevenPos);
-            telemetry.addData("servopos",SevenPos);
+            telemetry.addData("servo pos",SevenPos);
             telemetry.addData("toggle",servoChangeAllowed);
             telemetry.update();
             Motors.intakeMethod(spin);
