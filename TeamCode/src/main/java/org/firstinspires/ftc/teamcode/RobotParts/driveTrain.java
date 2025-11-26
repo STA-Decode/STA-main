@@ -86,10 +86,10 @@ public class driveTrain
         double[] cartesianCoordinates = toCartesian(r, theta);
         double x = cartesianCoordinates[0];
         double y = cartesianCoordinates[1];
-        leftFront.setPower(x - y - rotate);
+        leftFront.setPower(-x + y + rotate);
         leftBack.setPower(x + y - rotate);
-        rightBack.setPower(x - y + rotate);
-        rightFront.setPower(x + y + rotate);
+        rightBack.setPower(-x + y - rotate);
+        rightFront.setPower(-x - y - rotate);
     }
 
 

@@ -14,6 +14,8 @@ import java.util.List;
 @Autonomous(name = "Autonomous", group = "Autonomous")
 //Naam van project
 public class Auton extends LinearOpMode {
+    private ElapsedTime runtime = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -21,6 +23,7 @@ public class Auton extends LinearOpMode {
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
+
 
         driveTrain driveTrain = new driveTrain();
         Motors motors = new Motors();
@@ -33,30 +36,40 @@ public class Auton extends LinearOpMode {
         double startuptime = System.currentTimeMillis();
         motors.shootingMethod(1);
         //TODO: 26.5 cm rijden
+
         driveTrain.drive(-0.3, 0, 0, true);
+
         while (System.currentTimeMillis() < startuptime + 1000);
-        driveTrain.drive(0, 0, 0, true);
-        feeder.setSevenPos(0.475);
+            driveTrain.drive(0, 0, 0, true);
+            feeder.setSevenPos(0.475);
+
         while (System.currentTimeMillis() < startuptime + 1400);
-        feeder.setSevenPos(0);
+            feeder.setSevenPos(0);
+
         while (System.currentTimeMillis() < startuptime + 1800);
-        motors.intakeMethod(1);
-        motors.transferMethod(1);
+            motors.intakeMethod(1);
+            motors.transferMethod(1);
+
         while (System.currentTimeMillis() < startuptime +3000);
-        motors.transferMethod(0);
-        motors.intakeMethod(0);
-        feeder.setSevenPos(0.475);
+            motors.transferMethod(0);
+            motors.intakeMethod(0);
+            feeder.setSevenPos(0.475);
+
         while (System.currentTimeMillis() < startuptime + 3400);
-        feeder.setSevenPos(0);
+            feeder.setSevenPos(0);
+
         while (System.currentTimeMillis() < startuptime + 3800);
-        motors.intakeMethod(1);
-        motors.transferMethod(1);
+            motors.intakeMethod(1);
+            motors.transferMethod(1);
+
         while (System.currentTimeMillis() < startuptime + 5000);
-        motors.transferMethod(0);
-        motors.intakeMethod(0);
-        feeder.setSevenPos(0.475);
+            motors.transferMethod(0);
+            motors.intakeMethod(0);
+            feeder.setSevenPos(0.475);
+
         while (System.currentTimeMillis() < startuptime + 5400);
-        feeder.setSevenPos(0);
+            feeder.setSevenPos(0);
+
         while (System.currentTimeMillis() < startuptime + 5800);
     }
 }

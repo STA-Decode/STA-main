@@ -20,6 +20,7 @@ public class opmode extends LinearOpMode {
     Motors Motors = new Motors();
     //Servos Servos = new Servos();
     ServoTest ServoTest = new ServoTest();
+    private ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
         drivetrain.init(hardwareMap);
@@ -40,6 +41,8 @@ public class opmode extends LinearOpMode {
         boolean driveSideways = false;
         boolean servoChangeAllowed = true;
         boolean shooterChangeAllowed = true;
+        boolean twintakeAllowed = true;
+        boolean servoTimerAllowed = true;
         double servoTimer = 0;
         double transferPower = 0;
 
@@ -63,34 +66,35 @@ public class opmode extends LinearOpMode {
             double speed = 1;
 
             //This is the intake
-            if (currentGamepad.x && intakeAllowed)
+            if (currentGamepad.x && twintakeAllowed)
             {
                 if (spin == 0)
                 {
                     spin = 1;
-                }
-                else
-                {
-                    spin = 0;
-                }
-                intakeAllowed = false;
-            }
-            if (!currentGamepad.x)
-            {
-                intakeAllowed = true;
-            }
-
-            //this is the chain
-            if (currentGamepad.dpad_down && transportAllowed)
-            {
-                if (chainSpeed == 0)
-                {
-                    chainSpeed = 1;
                     transferPower = 1;
                 }
                 else
                 {
-                    chainSpeed = 0;
+                    spin = 0;
+                    transferPower = 0;
+                }
+                twintakeAllowed = false;
+            }
+            if (!currentGamepad.x)
+            {
+                twintakeAllowed = true;
+
+            }
+
+            if (currentGamepad.dpad_down && transportAllowed)
+            {
+                if (transferPower == 0)
+                {
+
+                    transferPower = 1;
+                }
+                else
+                {
                     transferPower = 0;
                 }
                 transportAllowed = false;
@@ -101,6 +105,62 @@ public class opmode extends LinearOpMode {
                 transportAllowed = true;
             }
 
+            if (currentGamepad.dpad_up && transportAllowed)
+            {
+                if (transferPower == 0)
+                {
+
+                    transferPower = -1;
+                }
+                else
+                {
+                    transferPower = 0;
+                }
+                transportAllowed = false;
+            }
+
+            if (!currentGamepad.dpad_up)
+            {
+                transportAllowed = true;
+            }
+
+            if (currentGamepad.dpad_right && intakeAllowed)
+            {
+                if (spin == 0)
+                {
+
+                    spin = 1;
+                }
+                else
+                {
+                    spin = 0;
+                }
+                intakeAllowed = false;
+            }
+
+            if (!currentGamepad.dpad_right)
+            {
+                intakeAllowed = true;
+            }
+
+            if (currentGamepad.dpad_left && intakeAllowed)
+            {
+                if (spin == 0)
+                {
+
+                    spin = -1;
+                }
+                else
+                {
+                    spin = 0;
+                }
+                intakeAllowed = false;
+            }
+
+            if (!currentGamepad.dpad_left)
+            {
+                intakeAllowed = true;
+            }
 
             if (currentGamepad.left_bumper)
             {
@@ -122,23 +182,34 @@ public class opmode extends LinearOpMode {
                 else driveSideways = true;
             }
 
-            if (currentGamepad.b && servoChangeAllowed) {
-                SevenPos = 0.475;
-
-                servoTimer = getRuntime();
+            if (currentGamepad.b && servoTimerAllowed)
+            {
+                servoTimer = runtime.milliseconds();
+                servoTimerAllowed = false;
             }
 
-            if (getRuntime() >= servoTimer + 0.4) {
-                servoChangeAllowed = false;
+            if (!currentGamepad.b)
+            {
+                servoTimer = 1101;
+                servoTimerAllowed = true;
+            }
+
+            if (runtime.milliseconds() < servoTimer + 400)
+            {
+                ServoTest.setSevenPos(0.475);
+            }
+
+            if (runtime.milliseconds() < servoTimer + 200)
+            {
+                ServoTest.setSevenPos(0);
+            }
+
+            if (runtime.milliseconds() > servoTimer + 525 && runtime.milliseconds() < servoTimer + 1100){
+                spin = 1;
+                transferPower = 1;
             }
 
 
-            if (!servoChangeAllowed) {
-                SevenPos = 0;
-            }
-            if (SevenPos == 0) {
-                servoChangeAllowed = true;
-            }
 
 
             drivetrain.drive(polarCoordinates[0], polarCoordinates[1], rotate, driveSideways);
