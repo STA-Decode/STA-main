@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 import java.util.List;
 
 //the namee is how this Opmode will show up on the driver-hub
-@TeleOp(name = "Opmode", group = "TeleOp")
-public class opmode extends LinearOpMode {
+@TeleOp(name = "TwoPlayerOpmode", group = "TeleOp")
+public class TwoPlayerOpmode extends LinearOpMode {
     driveTrain drivetrain = new driveTrain();
     Motors Motors = new Motors();
     //Servos Servos = new Servos();
@@ -36,8 +36,10 @@ public class opmode extends LinearOpMode {
         double level = 0;
         double power = 0;
         double FeederPos = 0;
-        boolean intakeAllowed = true;
-        boolean transportAllowed = true;
+        boolean intake1Allowed = true;
+        boolean intake2Allowed = true;
+        boolean transport1Allowed = true;
+        boolean transport2Allowed = true;
         boolean driveSideways = false;
         boolean servoChangeAllowed = true;
         boolean shooterChangeAllowed = true;
@@ -66,7 +68,7 @@ public class opmode extends LinearOpMode {
             double speed = 1;
 
             //This is the intake
-            if (currentGamepad.x && twintakeAllowed)
+            if (gamepad2.x && twintakeAllowed)
             {
                 if (spin == 0)
                 {
@@ -80,13 +82,13 @@ public class opmode extends LinearOpMode {
                 }
                 twintakeAllowed = false;
             }
-            if (!currentGamepad.x)
+            if (!gamepad2.x)
             {
                 twintakeAllowed = true;
 
             }
 
-            if (currentGamepad.dpad_down && transportAllowed)
+            if (gamepad2.dpad_down && transport1Allowed)
             {
                 if (transferPower == 0)
                 {
@@ -97,15 +99,15 @@ public class opmode extends LinearOpMode {
                 {
                     transferPower = 0;
                 }
-                transportAllowed = false;
+                transport1Allowed = false;
             }
 
-            if (!currentGamepad.dpad_down)
+            if (!gamepad2.dpad_down)
             {
-                transportAllowed = true;
+                transport1Allowed = true;
             }
 
-            if (currentGamepad.dpad_up && transportAllowed)
+            if (gamepad2.dpad_up && transport2Allowed)
             {
                 if (transferPower == 0)
                 {
@@ -116,15 +118,15 @@ public class opmode extends LinearOpMode {
                 {
                     transferPower = 0;
                 }
-                transportAllowed = false;
+                transport2Allowed = false;
             }
 
-            if (!currentGamepad.dpad_up)
+            if (!gamepad2.dpad_up)
             {
-                transportAllowed = true;
+                transport2Allowed = true;
             }
 
-            if (currentGamepad.dpad_right && intakeAllowed)
+            if (gamepad2.dpad_left && intake1Allowed)
             {
                 if (spin == 0)
                 {
@@ -135,15 +137,15 @@ public class opmode extends LinearOpMode {
                 {
                     spin = 0;
                 }
-                intakeAllowed = false;
+                intake1Allowed = false;
             }
 
-            if (!currentGamepad.dpad_right)
+            if (!gamepad2.dpad_left)
             {
-                intakeAllowed = true;
+                intake1Allowed = true;
             }
 
-            if (currentGamepad.dpad_left && intakeAllowed)
+            if (gamepad2.dpad_right && intake2Allowed)
             {
                 if (spin == 0)
                 {
@@ -154,35 +156,35 @@ public class opmode extends LinearOpMode {
                 {
                     spin = 0;
                 }
-                intakeAllowed = false;
+                intake2Allowed = false;
             }
 
-            if (!currentGamepad.dpad_left)
+            if (!gamepad2.dpad_right)
             {
-                intakeAllowed = true;
+                intake2Allowed = true;
             }
 
-            if (currentGamepad.left_bumper)
+            if (gamepad2.left_bumper)
             {
                 level = 1;
             }
 
-            if (currentGamepad.right_bumper)
+            if (gamepad2.right_bumper)
             {
                 level = 0;
             }
 
-            if (currentGamepad.a && !previousGamepad.a) {
+            if (gamepad2.a && !previousGamepad.a) {
                 if (power == 0) power = 1;
                 else power = 0;
             }
 
-            if (currentGamepad.y && !previousGamepad.y) {
+            if (gamepad2.y && !previousGamepad.y) {
                 if (driveSideways) driveSideways = false;
                 else driveSideways = true;
             }
 
-            if (currentGamepad.b && servoChangeAllowed)
+            if (gamepad2.b && servoChangeAllowed)
             {
                 servoTimer = runtime.milliseconds();
 
