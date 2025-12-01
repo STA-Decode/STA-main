@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
 import org.firstinspires.ftc.teamcode.RobotParts.Motors;
-import org.firstinspires.ftc.teamcode.RobotParts.Servos;
 import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 
 import java.util.List;
@@ -40,9 +39,10 @@ public class ShooterTest extends LinearOpMode {
         boolean servoChangeAllowed = true;
         boolean twintakeAllowed = true;
         boolean shooterChangeAllowed = true;
-        boolean servoTimerAllowed = true;
+        boolean scoreSequence = false;
         double servoTimer = 0;
         double transferPower = 0;
+        int runs = 0;
 
         Gamepad currentGamepad = new Gamepad(), previousGamepad = new Gamepad();
 
@@ -51,153 +51,44 @@ public class ShooterTest extends LinearOpMode {
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
         }
-            //This is the intake
-        if (currentGamepad.x && twintakeAllowed)
-        {
-            if (spin == 0)
-            {
-                spin = 1;
-                transferPower = 1;
+
+        while (opModeIsActive()) {
+            previousGamepad.copy(currentGamepad);
+            currentGamepad.copy(gamepad1);
+
+            if (currentGamepad.b && !previousGamepad.b && !scoreSequence) {
+                servoTimer = runtime.milliseconds();
+                scoreSequence = true;
             }
-            else
-            {
-                spin = 0;
-                transferPower = 0;
+
+            if (scoreSequence) {
+                if (runtime.milliseconds() < servoTimer + 2000) {
+                    ServoTest.setSevenPos(0.475);
+                    spin = 1;
+
+                } else if (runtime.milliseconds() < servoTimer + 4000) {
+                    ServoTest.setSevenPos(0);
+                    spin = 0;
+
+                } else if (runtime.milliseconds() < servoTimer + 5000) {
+                    transferPower = 1;
+                } else if (runtime.milliseconds() < servoTimer + 7000) {
+                    transferPower = 0;
+                } else {
+                    scoreSequence = false;
+                }
             }
-            twintakeAllowed = false;
+
+            runs++;
+            telemetry.addData("runs", runs);
+            telemetry.addData("servo pos", FeederPos);
+            telemetry.addData("toggle", servoChangeAllowed);
+            telemetry.addData("power", power);
+            telemetry.update();
+            Motors.intakeMethod(spin);
+            Motors.shootingMethod(power);
+            Motors.transferMethod(transferPower);
+            //Servos.Lift(level);
         }
-        if (!currentGamepad.x)
-        {
-            twintakeAllowed = true;
-
-        }
-
-        if (currentGamepad.dpad_down && transport1Allowed)
-        {
-            if (transferPower == 0)
-            {
-
-                transferPower = 1;
-            }
-            else
-            {
-                transferPower = 0;
-            }
-            transport1Allowed = false;
-        }
-
-        if (!currentGamepad.dpad_down)
-        {
-            transport1Allowed = true;
-        }
-
-        if (currentGamepad.dpad_up && transport2Allowed)
-        {
-            if (transferPower == 0)
-            {
-
-                transferPower = -1;
-            }
-            else
-            {
-                transferPower = 0;
-            }
-            transport2Allowed = false;
-        }
-
-        if (!currentGamepad.dpad_up)
-        {
-            transport2Allowed = true;
-        }
-
-        if (currentGamepad.dpad_right && intake1Allowed)
-        {
-            if (spin == 0)
-            {
-
-                spin = 1;
-            }
-            else
-            {
-                spin = 0;
-            }
-            intake1Allowed = false;
-        }
-
-        if (!currentGamepad.dpad_right)
-        {
-            intake1Allowed = true;
-        }
-
-        if (currentGamepad.dpad_left && intake2Allowed)
-        {
-            if (spin == 0)
-            {
-
-                spin = -1;
-            }
-            else
-            {
-                spin = 0;
-            }
-            intake2Allowed = false;
-        }
-
-        if (!currentGamepad.dpad_left)
-        {
-            intake2Allowed = true;
-        }
-
-        if (currentGamepad.a && !previousGamepad.a) {
-            if (power == 0) power = 1;
-            else power = 0;
-        }
-
-
-
-
-
-
-        if (gamepad1.b && servoTimerAllowed) {
-            servoTimer = runtime.milliseconds();
-            servoTimerAllowed = false;
-
-
-            if (!gamepad2.b) {
-                servoTimer = 0;
-                servoTimerAllowed = true;
-            }
-
-            if (runtime.milliseconds() < servoTimer + 2000) {
-                ServoTest.setSevenPos(0.475);
-                spin = 1;
-            }
-
-            if (runtime.milliseconds() > servoTimer + 2000 && runtime.milliseconds() < servoTimer + 4000) {
-                ServoTest.setSevenPos(0);
-                spin = 0;
-            }
-
-            if (runtime.milliseconds() > servoTimer + 4000 && runtime.milliseconds() < servoTimer + 5000) {
-                transferPower = 1;
-            }
-        }
-
-
-
-
-
-        ServoTest.setSevenPos(FeederPos);
-        telemetry.addData("servo pos",FeederPos);
-        telemetry.addData("toggle",servoChangeAllowed);
-        telemetry.addData("power",power);
-        telemetry.update();
-        Motors.intakeMethod(spin);
-        Motors.shootingMethod(power);
-        Motors.transferMethod(transferPower);
-        //Servos.Lift(level);
     }
-
-
-
 }

@@ -178,17 +178,15 @@ public class opmode extends LinearOpMode {
             {
                 servoTimer = runtime.milliseconds();
 
-                FeederPos = 0.450;
-
             }
 
-            if (runtime.milliseconds() > servoTimer + 0.35)
+            if (runtime.milliseconds() < servoTimer + 400)
             {
-                FeederPos = 0;
+                ServoTest.setSevenPos(0.450);
             }
-
-            if (FeederPos == 0)
+            else
             {
+                ServoTest.setSevenPos(0);
                 servoChangeAllowed = true;
             }
 
@@ -224,11 +222,7 @@ public class opmode extends LinearOpMode {
                 transferPower = 1;
             }*/
 
-
-
-
             drivetrain.drive(polarCoordinates[0], polarCoordinates[1], rotate, driveSideways);
-            ServoTest.setSevenPos(FeederPos);
             telemetry.addData("servo pos",FeederPos);
             telemetry.addData("toggle",servoChangeAllowed);
             telemetry.addData("power",power);
