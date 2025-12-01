@@ -32,12 +32,12 @@ public class opmode extends LinearOpMode {
         if (isStopRequested()) return;
         double driveMode = 0;
         double spin = 0;
-        double chainSpeed = 0;
-        double level = 0;
         double power = 0;
         double FeederPos = 0;
-        boolean intakeAllowed = true;
-        boolean transportAllowed = true;
+        boolean intake1Allowed = true;
+        boolean intake2Allowed = true;
+        boolean transport1Allowed = true;
+        boolean transport2Allowed = true;
         boolean driveSideways = false;
         boolean servoChangeAllowed = true;
         boolean shooterChangeAllowed = true;
@@ -86,7 +86,7 @@ public class opmode extends LinearOpMode {
 
             }
 
-            if (currentGamepad.dpad_down && transportAllowed)
+            if (currentGamepad.dpad_down && transport1Allowed)
             {
                 if (transferPower == 0)
                 {
@@ -97,15 +97,15 @@ public class opmode extends LinearOpMode {
                 {
                     transferPower = 0;
                 }
-                transportAllowed = false;
+                transport1Allowed = false;
             }
 
             if (!currentGamepad.dpad_down)
             {
-                transportAllowed = true;
+                transport1Allowed = true;
             }
 
-            if (currentGamepad.dpad_up && transportAllowed)
+            if (currentGamepad.dpad_up && transport2Allowed)
             {
                 if (transferPower == 0)
                 {
@@ -116,15 +116,15 @@ public class opmode extends LinearOpMode {
                 {
                     transferPower = 0;
                 }
-                transportAllowed = false;
+                transport2Allowed = false;
             }
 
             if (!currentGamepad.dpad_up)
             {
-                transportAllowed = true;
+                transport2Allowed = true;
             }
 
-            if (currentGamepad.dpad_right && intakeAllowed)
+            if (currentGamepad.dpad_right && intake1Allowed)
             {
                 if (spin == 0)
                 {
@@ -135,15 +135,15 @@ public class opmode extends LinearOpMode {
                 {
                     spin = 0;
                 }
-                intakeAllowed = false;
+                intake1Allowed = false;
             }
 
             if (!currentGamepad.dpad_right)
             {
-                intakeAllowed = true;
+                intake1Allowed = true;
             }
 
-            if (currentGamepad.dpad_left && intakeAllowed)
+            if (currentGamepad.dpad_left && intake2Allowed)
             {
                 if (spin == 0)
                 {
@@ -154,23 +154,15 @@ public class opmode extends LinearOpMode {
                 {
                     spin = 0;
                 }
-                intakeAllowed = false;
+                intake2Allowed = false;
             }
 
             if (!currentGamepad.dpad_left)
             {
-                intakeAllowed = true;
+                intake2Allowed = true;
             }
 
-            if (currentGamepad.left_bumper)
-            {
-                level = 1;
-            }
 
-            if (currentGamepad.right_bumper)
-            {
-                level = 0;
-            }
 
             if (currentGamepad.a && !previousGamepad.a) {
                 if (power == 0) power = 1;
@@ -187,6 +179,7 @@ public class opmode extends LinearOpMode {
                 servoTimer = runtime.milliseconds();
 
                 FeederPos = 0.450;
+
             }
 
             if (runtime.milliseconds() > servoTimer + 0.35)
