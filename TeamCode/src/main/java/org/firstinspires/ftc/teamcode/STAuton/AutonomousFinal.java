@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
 
 import java.util.List;
 
-@Autonomous(name = "Autonomous", group = "Autonomous")
+@Autonomous(name = "AutonomousFinal", group = "AutonomousFinal")
 //Naam van project
-public class Auton extends LinearOpMode {
+public class AutonomousFinal extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -49,7 +49,7 @@ public class Auton extends LinearOpMode {
                     //TODO: 26.5 cm rijden
                     error = 26.5;
                     driveTrain.drive(-0.3, 0, 0, true);
-                    if (error < 0.3 || startuptime < System.currentTimeMillis() + 1000) {
+                    if (error < 0.3 || startuptime < System.currentTimeMillis() + 2000) {
                         state++;
                         driveTrain.drive(0, 0, 0, true);
                         feeder.setSevenPos(0.475);
@@ -69,7 +69,7 @@ public class Auton extends LinearOpMode {
                     }
                     break;
                 case 3:
-                    if (System.currentTimeMillis() < startuptime + 2200) {
+                    if (System.currentTimeMillis() < startuptime + 3000) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);

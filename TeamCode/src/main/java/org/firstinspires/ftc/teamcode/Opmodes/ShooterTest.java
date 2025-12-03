@@ -56,23 +56,43 @@ public class ShooterTest extends LinearOpMode {
             previousGamepad.copy(currentGamepad);
             currentGamepad.copy(gamepad1);
 
+            if (currentGamepad.a && shooterChangeAllowed)
+            {
+                if (power == 0)
+                {
+
+                    power = -1;
+                }
+                else
+                {
+                    power = 0;
+                }
+                shooterChangeAllowed = false;
+            }
+
+            if (!currentGamepad.a)
+            {
+                shooterChangeAllowed = true;
+            }
+
+
             if (currentGamepad.b && !previousGamepad.b && !scoreSequence) {
                 servoTimer = runtime.milliseconds();
                 scoreSequence = true;
             }
 
             if (scoreSequence) {
-                if (runtime.milliseconds() < servoTimer + 2000) {
+                if (runtime.milliseconds() < servoTimer + 400) {
                     ServoTest.setSevenPos(0.475);
                     spin = 1;
 
-                } else if (runtime.milliseconds() < servoTimer + 4000) {
+                } else if (runtime.milliseconds() < servoTimer + 800) {
                     ServoTest.setSevenPos(0);
                     spin = 0;
 
-                } else if (runtime.milliseconds() < servoTimer + 5000) {
+                } else if (runtime.milliseconds() < servoTimer + 1200) {
                     transferPower = 1;
-                } else if (runtime.milliseconds() < servoTimer + 7000) {
+                } else if (runtime.milliseconds() < servoTimer + 1700) {
                     transferPower = 0;
                 } else {
                     scoreSequence = false;

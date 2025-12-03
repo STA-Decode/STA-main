@@ -182,10 +182,12 @@ public class opmode extends LinearOpMode {
 
             if (runtime.milliseconds() < servoTimer + 400)
             {
+                FeederPos = 0.450;
                 ServoTest.setSevenPos(0.450);
             }
             else
             {
+                FeederPos = 0;
                 ServoTest.setSevenPos(0);
                 servoChangeAllowed = true;
             }
