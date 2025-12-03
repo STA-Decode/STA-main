@@ -10,7 +10,7 @@ public class ServoTest
 
     public void init(HardwareMap map)
     {
-        Seven = map.get(Servo.class, "Seven");
+        Seven = map.get(Servo.class, "feeder");
 
 
     }

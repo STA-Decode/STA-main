@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
+import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 import org.firstinspires.ftc.teamcode.RobotParts.Motors;
-import org.firstinspires.ftc.teamcode.RobotParts.Servos;
 import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 //the namee is how this Opmode will show up on the driver-hub
 @TeleOp(name = "Opmode", group = "TeleOp")
 public class opmode extends LinearOpMode {
-    driveTrain drivetrain = new driveTrain();
+    DriveTrain drivetrain = new DriveTrain();
     Motors Motors = new Motors();
     //Servos Servos = new Servos();
     ServoTest ServoTest = new ServoTest();
@@ -30,19 +29,16 @@ public class opmode extends LinearOpMode {
 
         waitForStart();
         if (isStopRequested()) return;
-        double driveMode = 0;
         double spin = 0;
         double power = 0;
-        double FeederPos = 0;
+        double FeederPos;
         boolean intake1Allowed = true;
         boolean intake2Allowed = true;
         boolean transport1Allowed = true;
         boolean transport2Allowed = true;
         boolean driveSideways = false;
         boolean servoChangeAllowed = true;
-        boolean shooterChangeAllowed = true;
         boolean twintakeAllowed = true;
-        //boolean servoTimerAllowed = true;
         double servoTimer = 0;
         double transferPower = 0;
 
@@ -61,9 +57,8 @@ public class opmode extends LinearOpMode {
             double y = -currentGamepad.left_stick_x;
             double x = -currentGamepad.left_stick_y;
             double rotate = -currentGamepad.right_stick_x;
-            double[] polarCoordinates = driveTrain.toPolar(x, y);
-            polarCoordinates[0] = driveTrain.exagerateR(polarCoordinates[0]);
-            double speed = 1;
+            double[] polarCoordinates = DriveTrain.toPolar(x, y);
+            polarCoordinates[0] = DriveTrain.exaggerateR(polarCoordinates[0]);
 
             //This is the intake
             if (currentGamepad.x && twintakeAllowed)

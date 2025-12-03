@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.RobotParts.Motors;
 import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
-import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
+import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class Auton extends LinearOpMode {
         }
 
 
-        driveTrain driveTrain = new driveTrain();
+        DriveTrain driveTrain = new DriveTrain();
         Motors motors = new Motors();
         ServoTest feeder = new ServoTest();
         motors.init(hardwareMap);
@@ -43,13 +43,13 @@ public class Auton extends LinearOpMode {
         startuptime = System.currentTimeMillis();
         motors.shootingMethod(1);
 
-        while (opModeIsActive() && state != 9) {
+        while (opModeIsActive() && state < 9) {
             switch (state) {
                 case 0:
                     //TODO: 26.5 cm rijden
                     error = 26.5;
                     driveTrain.drive(-0.3, 0, 0, true);
-                    if (error < 0.3 || startuptime < System.currentTimeMillis() + 1000) {
+                    if (error < 0.3 || startuptime < System.currentTimeMillis() + 2000) {
                         state++;
                         driveTrain.drive(0, 0, 0, true);
                         feeder.setSevenPos(0.475);
@@ -69,7 +69,7 @@ public class Auton extends LinearOpMode {
                     }
                     break;
                 case 3:
-                    if (System.currentTimeMillis() < startuptime + 2200) {
+                    if (System.currentTimeMillis() < startuptime + 3000) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
@@ -108,6 +108,9 @@ public class Auton extends LinearOpMode {
                     }
                     break;
             }
+            telemetry.addData("state",state);
+            telemetry.addData("time", System.currentTimeMillis() - startuptime);
+            telemetry.update();
         }
 
 
@@ -115,19 +118,6 @@ public class Auton extends LinearOpMode {
 
 
 
-
-        while (System.currentTimeMillis() < startuptime + 3800);
-        motors.intakeMethod(1);
-        motors.transferMethod(1);
-
-        while (System.currentTimeMillis() < startuptime + 5000);
-        motors.transferMethod(0);
-        motors.intakeMethod(0);
-        feeder.setSevenPos(0.475);
-
-        while (System.currentTimeMillis() < startuptime + 5400);
-        feeder.setSevenPos(0);
-
-        while (System.currentTimeMillis() < startuptime + 5800);
     }
 }
+

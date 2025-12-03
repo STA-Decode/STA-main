@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotParts.driveTrain;
+import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 import org.firstinspires.ftc.teamcode.RobotParts.Motors;
 import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 
@@ -15,7 +15,7 @@ import java.util.List;
 //the namee is how this Opmode will show up on the driver-hub
 @TeleOp(name = "ShooterTest", group = "TeleOp")
 public class ShooterTest extends LinearOpMode {
-    driveTrain drivetrain = new driveTrain();
+    DriveTrain drivetrain = new DriveTrain();
     Motors Motors = new Motors();
     //Servos Servos = new Servos();
     ServoTest ServoTest = new ServoTest();
@@ -61,7 +61,7 @@ public class ShooterTest extends LinearOpMode {
                 if (power == 0)
                 {
 
-                    power = -1;
+                    power = 1;
                 }
                 else
                 {
@@ -83,19 +83,27 @@ public class ShooterTest extends LinearOpMode {
 
             if (scoreSequence) {
                 if (runtime.milliseconds() < servoTimer + 400) {
-                    ServoTest.setSevenPos(0.475);
+                    ServoTest.setSevenPos(0.450);
+                    transferPower = -1;
+
+                } else if (runtime.milliseconds() < servoTimer + 475) {
                     spin = 1;
 
                 } else if (runtime.milliseconds() < servoTimer + 800) {
                     ServoTest.setSevenPos(0);
                     spin = 0;
+                    transferPower = 0;
 
                 } else if (runtime.milliseconds() < servoTimer + 1200) {
                     transferPower = 1;
                 } else if (runtime.milliseconds() < servoTimer + 1700) {
                     transferPower = 0;
                 } else {
-                    scoreSequence = false;
+                    if (currentGamepad.b) {
+                        servoTimer = runtime.milliseconds();
+                    } else {
+                        scoreSequence = false;
+                    }
                 }
             }
 

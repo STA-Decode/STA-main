@@ -23,8 +23,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Motors
-{
+public class Motors {
     //Here, we declare our parts and other stuff, so that the computer knows they exist, and what type they are (type like servo, motor, etc.)
     private DcMotorEx intake;
     private DcMotorEx shooter1;
@@ -32,7 +31,7 @@ public class Motors
     private DcMotorEx transfer;
     //When you start your main program you have to call init() on every class used.
     //In the init, we do stuff that has to happen exactly once in our program
-    public void init(HardwareMap map){
+    public void init(HardwareMap map) {
         //Here, we are linking the motors we just declared with actual motors on our robot. In your HardwareMap, you will assign a name to different motors (making the HardwareMap doesn't happen in the code, just ask someone how to do it and be prepared for a lot of following wires)
         intake = map.get(DcMotorEx.class, "intake");
         shooter1 = map.get(DcMotorEx.class, "shooter1");
@@ -45,20 +44,20 @@ public class Motors
     }
 
     //The method rotate() is used whenever we wanna... you guessed it: rotate
-    public void intakeMethod(double spin){
+    public void intakeMethod(double spin) {
         //quick note: a negative speed will make it turn counterclockwise
 
         //Here, we are setting the power (a value between -1 and 1) to our motors
         intake.setPower(-spin);
 
        }
-    public void shootingMethod(double power){
+    public void shootingMethod(double power) {
 
         shooter1.setPower(-power);
         shooter2.setPower(power);
 
     }
-    public void transferMethod(double transferPower){
+    public void transferMethod(double transferPower) {
 
        transfer.setPower(transferPower);
     }

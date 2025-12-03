@@ -23,7 +23,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class driveTrain
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+public class DriveTrain
 {
     //Here, we declare our parts and other stuff, so that the computer knows they exist, and what type they are (type like servo, motor, etc.)
     private DcMotorEx leftFront;
@@ -48,6 +50,28 @@ public class driveTrain
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        resetEncoders();
+    }
+
+    public void resetEncoders() {
+        //Strafe encoder
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void addTelemetry(Telemetry telemetry) {
+        telemetry.addData("lf", leftFront.getPower());
+        telemetry.addData("rf", rightFront.getPower());
+        telemetry.addData("lb", leftBack.getPower());
+        telemetry.addData("rb", rightBack.getPower());
+    }
+
+    /**
+     * Returns data from the encoders.
+     * @return 1: strafe; 2: left forward; 3: right forward
+     */
+    public int[] getEncoderData() {
+        return new int[] {rightFront.getCurrentPosition()};
     }
 
     /**
@@ -77,7 +101,7 @@ public class driveTrain
         return new double[]{x,y};
     }
 
-    public static double exagerateR(double r) {return Math.sin(2*Math.PI*r) /9 + r;}
+    public static double exaggerateR(double r) {return Math.sin(2*Math.PI*r) /9 + r;}
 
 
     //The method drive() is a lot like rotate()
