@@ -47,12 +47,12 @@ public class AutonomousFinal extends LinearOpMode {
         startuptime = System.currentTimeMillis();
         motors.shootingMethod(1);
 
-        while (opModeIsActive() && state != 9) {
+        while (opModeIsActive() && state != 14) {
             switch (state) {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
                     error = 26.5 - ticks / TICKS_PER_CM;
-                    driveTrain.drive(0.3, Math.PI, 0, true);
+                    driveTrain.drive(0.7, Math.PI, 0, true);
                     if (error < 0.5 || System.currentTimeMillis() > startuptime + 2000) {
                         startuptime = System.currentTimeMillis();
                         state++;
@@ -67,7 +67,7 @@ public class AutonomousFinal extends LinearOpMode {
                     }
                     break;
                 case 2:
-                    if (System.currentTimeMillis() > startuptime + 800) {
+                    if (System.currentTimeMillis() > startuptime +800) {
                         state++;
                         motors.intakeMethod(1);
                         motors.transferMethod(1);
@@ -95,7 +95,7 @@ public class AutonomousFinal extends LinearOpMode {
                     }
                     break;
                 case 6:
-                    if (System.currentTimeMillis() > startuptime + 4000) {
+                    if (System.currentTimeMillis() > startuptime + 3200) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
@@ -103,13 +103,57 @@ public class AutonomousFinal extends LinearOpMode {
                     }
                     break;
                 case 7:
-                    if (System.currentTimeMillis() > startuptime + 4400) {
+                    if (System.currentTimeMillis() > startuptime + 3600) {
                         state++;
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 8:
                     if (System.currentTimeMillis() > startuptime + 4800) {
+                        state++;
+                    }
+                    break;
+                case 9:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 65.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(-0.7, Math.PI, 0, true);
+                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 5000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                    break;
+                case 10:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0, 0, 0.5, true);
+                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 7000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                    break;
+                case 11:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 60.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(-0.7, Math.PI, 0, true);
+                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 8000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                    break;
+                case 12:
+                    if (System.currentTimeMillis() > startuptime + 9500) {
+                        motors.transferMethod(0.5);
+                        motors.intakeMethod(0.5);
+                        state++;
+                    }
+                    break;
+                case 13:
+                    if (System.currentTimeMillis() > startuptime + 10500) {
+                        motors.transferMethod(0);
+                        motors.intakeMethod(0);
                         state++;
                     }
                     break;

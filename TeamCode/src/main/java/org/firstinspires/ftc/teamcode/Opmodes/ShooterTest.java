@@ -85,14 +85,12 @@ public class ShooterTest extends LinearOpMode {
                 if (runtime.milliseconds() < servoTimer + 400) {
                     ServoTest.setSevenPos(0.450);
                     transferPower = -1;
-
-                } else if (runtime.milliseconds() < servoTimer + 475) {
                     spin = 1;
 
                 } else if (runtime.milliseconds() < servoTimer + 800) {
                     ServoTest.setSevenPos(0);
-                    spin = 0;
                     transferPower = 0;
+                    spin = 0;
 
                 } else if (runtime.milliseconds() < servoTimer + 1200) {
                     transferPower = 1;
