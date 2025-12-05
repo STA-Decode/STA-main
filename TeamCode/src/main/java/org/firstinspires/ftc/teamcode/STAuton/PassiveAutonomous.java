@@ -52,7 +52,7 @@ public class PassiveAutonomous extends LinearOpMode {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
                     error = 25.0 - ticks / TICKS_PER_CM;
-                    driveTrain.drive(0.4, 0.75 * Math.PI, 0, true);
+                    driveTrain.drive(-0.4, 0.75 * Math.PI, 0, true);
                     if (error < 1 || System.currentTimeMillis() > startuptime + 4000) {
                         startuptime = System.currentTimeMillis();
                         driveTrain.drive(0, 0, 0, true);

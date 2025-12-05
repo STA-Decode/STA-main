@@ -45,15 +45,15 @@ public class AutonomousFinal extends LinearOpMode {
         if (isStopRequested()) return;
 
         startuptime = System.currentTimeMillis();
-        motors.shootingMethod(1);
 
         while (opModeIsActive() && state != 14) {
             switch (state) {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
                     error = 26.5 - ticks / TICKS_PER_CM;
+                    motors.shootingMethod(1);
                     driveTrain.drive(0.7, Math.PI, 0, true);
-                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 2000) {
+                    if (ticks > 11000|| System.currentTimeMillis() > startuptime + 2000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -110,14 +110,15 @@ public class AutonomousFinal extends LinearOpMode {
                     break;
                 case 8:
                     if (System.currentTimeMillis() > startuptime + 4800) {
+                        motors.shootingMethod(0);
                         state++;
                     }
                     break;
                 case 9:
                     ticks = driveTrain.getEncoderData()[0];
                     error = 65.0 - ticks / TICKS_PER_CM;
-                    driveTrain.drive(-0.7, Math.PI, 0, true);
-                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 5000) {
+                    driveTrain.drive(0.5, Math.PI, 0, true);
+                    if (ticks > 5000 || System.currentTimeMillis() > startuptime + 5000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -127,7 +128,7 @@ public class AutonomousFinal extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 7000) {
+                    if (ticks > 5000 || System.currentTimeMillis() > startuptime + 7000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -137,7 +138,7 @@ public class AutonomousFinal extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 60.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, Math.PI, 0, true);
-                    if (error < 0.5 || System.currentTimeMillis() > startuptime + 8000) {
+                    if (ticks > 5000 || System.currentTimeMillis() > startuptime + 8000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);

@@ -113,7 +113,7 @@ public class DriveTrain
         leftFront.setPower(-x + y + rotate);
         leftBack.setPower(x + y - rotate);
         rightBack.setPower(-x + y - rotate);
-        rightFront.setPower(-x - y - rotate);
+        rightFront.setPower(x + y + rotate);
     }
 
 

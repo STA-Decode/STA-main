@@ -41,13 +41,13 @@ public class Auton extends LinearOpMode {
         if (isStopRequested()) return;
 
         startuptime = System.currentTimeMillis();
-        motors.shootingMethod(1);
 
         while (opModeIsActive() && state < 9) {
             switch (state) {
                 case 0:
                     //TODO: 26.5 cm rijden
                     error = 26.5;
+                    motors.shootingMethod(1);
                     driveTrain.drive(-0.3, 0, 0, true);
                     if (error < 0.3 || startuptime < System.currentTimeMillis() + 2000) {
                         state++;
