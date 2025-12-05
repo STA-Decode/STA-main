@@ -17,7 +17,6 @@ import java.util.List;
 public class ShooterTest extends LinearOpMode {
     DriveTrain drivetrain = new DriveTrain();
     Motors Motors = new Motors();
-    //Servos Servos = new Servos();
     ServoTest ServoTest = new ServoTest();
     private ElapsedTime runtime = new ElapsedTime();
     @Override

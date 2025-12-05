@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Opmodes;
 
-import com.qualcomm.hardware.lynx.LynxModule;
+import  com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -14,11 +14,12 @@ import java.util.List;
 
 //the name is how this Opmode will show up on the driver-hub
 @TeleOp(group = "TeleOp")
-public class IgorDrive extends LinearOpMode {
+public class IgorDriveAuto extends LinearOpMode {
     DriveTrain drivetrain = new DriveTrain();
     Motors Motors = new Motors();
     ServoTest ServoTest = new ServoTest();
     private final ElapsedTime runtime = new ElapsedTime();
+
     @Override
     public void runOpMode() throws InterruptedException {
         drivetrain.init(hardwareMap);
@@ -30,12 +31,14 @@ public class IgorDrive extends LinearOpMode {
         if (isStopRequested()) return;
         double power = 0;
         double FeederPos = 0;
+        double transferPower = 0;
         boolean driveSideways = false;
         boolean servoChangeAllowed = false;
-        boolean reverseShooter = false;
         boolean outtaking = false;
         double servoTimer = 0;
-        double reverseTimer = 0;
+        boolean scoreSequence = false;
+        double spin = 0;
+        int runs = 0;
 
         Gamepad currentGamepad1 = new Gamepad(), previousGamepad1 = new Gamepad(),
                 currentGamepad2 = new Gamepad(), previousGamepad2 = new Gamepad();
@@ -54,7 +57,7 @@ public class IgorDrive extends LinearOpMode {
 
             double y = -currentGamepad1.left_stick_x;
             double x = -currentGamepad1.left_stick_y;
-            double rotate = -currentGamepad1.right_stick_x * 1;
+            double rotate = -currentGamepad1.right_stick_x * 0.4;
             double[] polarCoordinates = DriveTrain.toPolar(x, y);
 //            polarCoordinates[0] = driveTrain.exaggerateR(polarCoordinates[0]);
 
@@ -72,40 +75,41 @@ public class IgorDrive extends LinearOpMode {
                 driveSideways = !driveSideways;
             }
 
-            if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper && !servoChangeAllowed) {
+            if (currentGamepad2.left_bumper && !previousGamepad2.left_bumper && !scoreSequence) {
                 servoTimer = runtime.milliseconds();
-                servoChangeAllowed = true;
-                ServoTest.setSevenPos(0.450);
+                scoreSequence = true;
             }
 
-            if (servoChangeAllowed) {
-                if (runtime.milliseconds() > servoTimer + 400) {
+            if (scoreSequence) {
+                if (runtime.milliseconds() < servoTimer + 400) {
+                    ServoTest.setSevenPos(0.450);
+                    transferPower = -1;
+                    spin = 1;
+
+                } else if (runtime.milliseconds() < servoTimer + 800) {
                     ServoTest.setSevenPos(0);
-                    servoChangeAllowed = false;
+                    transferPower = 0;
+                    spin = 0;
+
+                } else if (runtime.milliseconds() < servoTimer + 1200) {
+                    transferPower = 1;
+                } else if (runtime.milliseconds() < servoTimer + 1700) {
+                    transferPower = 0;
+                } else {
+                    if (currentGamepad2.left_bumper) {
+                        servoTimer = runtime.milliseconds();
+                    } else {
+                        scoreSequence = false;
+                    }
                 }
+                runs++;
+                drivetrain.drive(polarCoordinates[0], polarCoordinates[1], rotate, driveSideways);
+                telemetry.addData("servo pos", FeederPos);
+                telemetry.addData("toggle", servoChangeAllowed);
+                telemetry.addData("power", power);
+                drivetrain.addTelemetry(telemetry);
+                telemetry.update();
             }
-
-            if (currentGamepad2.a && !previousGamepad2.a && !reverseShooter) {
-                reverseTimer = runtime.milliseconds();
-                power = -1;
-                Motors.shootingMethod(power);
-                reverseShooter = true;
-            }
-
-            if (reverseShooter) {
-                if (runtime.milliseconds() > reverseTimer + 100) {
-                    power = 0;
-                    Motors.shootingMethod(power);
-                    reverseShooter = false;
-                }
-            }
-
-            drivetrain.drive(polarCoordinates[0], polarCoordinates[1], rotate, driveSideways);
-            telemetry.addData("servo pos",FeederPos);
-            telemetry.addData("toggle",servoChangeAllowed);
-            telemetry.addData("power",power);
-            drivetrain.addTelemetry(telemetry);
-            telemetry.update();
         }
     }
 }
