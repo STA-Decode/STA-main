@@ -46,14 +46,14 @@ public class AutonomousFinal extends LinearOpMode {
 
         startuptime = System.currentTimeMillis();
 
-        while (opModeIsActive() && state != 14) {
+        while (opModeIsActive() && state != 24) {
             switch (state) {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
                     error = 26.5 - ticks / TICKS_PER_CM;
                     motors.shootingMethod(1);
                     driveTrain.drive(0.7, Math.PI, 0, true);
-                    if (ticks > 11000|| System.currentTimeMillis() > startuptime + 2000) {
+                    if (ticks > 11000|| System.currentTimeMillis() > startuptime + 3000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -117,8 +117,8 @@ public class AutonomousFinal extends LinearOpMode {
                 case 9:
                     ticks = driveTrain.getEncoderData()[0];
                     error = 65.0 - ticks / TICKS_PER_CM;
-                    driveTrain.drive(0.5, Math.PI, 0, true);
-                    if (ticks > 5000 || System.currentTimeMillis() > startuptime + 5000) {
+                    driveTrain.drive(0.7, Math.PI, 0, true);
+                    if (ticks > 12222 || System.currentTimeMillis() > startuptime + 7000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -128,7 +128,7 @@ public class AutonomousFinal extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (ticks > 5000 || System.currentTimeMillis() > startuptime + 7000) {
+                    if (ticks > 1024 || System.currentTimeMillis() > startuptime + 11000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -138,7 +138,7 @@ public class AutonomousFinal extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 60.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, Math.PI, 0, true);
-                    if (ticks > 5000 || System.currentTimeMillis() > startuptime + 8000) {
+                    if (ticks > 26888 || System.currentTimeMillis() > startuptime + 14000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -152,9 +152,90 @@ public class AutonomousFinal extends LinearOpMode {
                     }
                     break;
                 case 13:
-                    if (System.currentTimeMillis() > startuptime + 10500) {
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0, 0, -0.5, true);
+                    if (ticks > 1024 || System.currentTimeMillis() > startuptime + 16000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
+                        driveTrain.drive(0, 0, 0, true);
+
+                        state++;
+                    }
+                    break;
+                case 14:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 60.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(-0.7, Math.PI, 0, true);
+                    if (ticks > 20777 || System.currentTimeMillis() > startuptime + 19000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                case 15:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0, 0, 0.5, true);
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 21000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                    break;
+                case 16:
+                    if (System.currentTimeMillis() > startuptime + 23000) {
+                        state++;
+                        motors.shootingMethod(1);
+                        feeder.setSevenPos(0);
+                    }
+                    break;
+                case 17:
+                    if (System.currentTimeMillis() > startuptime + 25000) {
+                        state++;
+                        motors.intakeMethod(1);
+                        motors.transferMethod(1);
+                    }
+                    break;
+                case 18:
+                    if (System.currentTimeMillis() > startuptime + 27000) {
+                        state++;
+                        motors.transferMethod(0);
+                        motors.intakeMethod(0);
+                        feeder.setSevenPos(0.475);
+                    }
+                    break;
+                case 19:
+                    if (System.currentTimeMillis() > startuptime + 27250) {
+                        state++;
+                        feeder.setSevenPos(0);
+                    }
+                    break;
+                case 20:
+                    if (System.currentTimeMillis() > startuptime + 27500) {
+                        state++;
+                        motors.intakeMethod(1);
+                        motors.transferMethod(1);
+                    }
+                    break;
+                case 21:
+                    if (System.currentTimeMillis() > startuptime + 27750) {
+                        state++;
+                        motors.transferMethod(0);
+                        motors.intakeMethod(0);
+                        feeder.setSevenPos(0.475);
+                    }
+                    break;
+                case 22:
+                    if (System.currentTimeMillis() > startuptime + 28000) {
+                        state++;
+                        feeder.setSevenPos(0);
+                    }
+                    break;
+                case 23:
+                    if (System.currentTimeMillis() > startuptime + 28250) {
+                        motors.shootingMethod(0);
                         state++;
                     }
                     break;
