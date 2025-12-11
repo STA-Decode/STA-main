@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 
 import java.util.List;
 
-@Autonomous(name = "AutonomousFinal", group = "AutonomousFinal")
+@Autonomous(name = "AutonomousRedClose", group = "AutonomousRedClose")
 //Naam van project
-public class AutonomousFinal extends LinearOpMode {
+public class AutonomousRedClose extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private final int TICKS_PER_REVOLUTION = 8192;
     private final double WHEEL_DIAMETER_MM = 34.0;
