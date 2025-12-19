@@ -59,7 +59,7 @@ public class IgorDrive extends LinearOpMode {
 //            polarCoordinates[0] = driveTrain.exaggerateR(polarCoordinates[0]);
 
             //This is the intake
-            Motors.intakeMethod(currentGamepad1.right_trigger - currentGamepad1.left_trigger);
+            Motors.intakeMethod(currentGamepad1.right_trigger * -1 - currentGamepad1.left_trigger * -1);
 
             Motors.transferMethod(currentGamepad2.right_trigger - currentGamepad2.left_trigger);
 
