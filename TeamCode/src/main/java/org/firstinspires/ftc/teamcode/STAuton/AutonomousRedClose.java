@@ -56,7 +56,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     if (ticks > 2094|| System.currentTimeMillis() > startuptime + 3000) {
                         startuptime = System.currentTimeMillis();
                         state++;
-                        driveTrain.drive(0, 0, 0, true);
+                        driveTrain.drive(0, 0*Math.PI, 0, true);
                         feeder.setSevenPos(0.475);
                     }
                     break;
