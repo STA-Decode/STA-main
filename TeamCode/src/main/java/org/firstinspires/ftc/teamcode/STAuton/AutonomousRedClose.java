@@ -39,16 +39,14 @@ public class AutonomousRedClose extends LinearOpMode {
 
         double startuptime;
         double error = 0;
-        double rerror = 0;
         int ticks = 0;
-        int rticks = 0;
 
         waitForStart();
         if (isStopRequested()) return;
 
         startuptime = System.currentTimeMillis();
 
-        while (opModeIsActive() && state != 59) {
+        while (opModeIsActive() && state != 64) {
             switch (state) {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
@@ -127,10 +125,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 10:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 975 || System.currentTimeMillis() > startuptime + 33311000) {
+                    if (ticks > 975 || System.currentTimeMillis() > startuptime + 33311000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -154,8 +152,8 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 13:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
                     if (ticks > 1949 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -177,10 +175,10 @@ public class AutonomousRedClose extends LinearOpMode {
                         driveTrain.drive(0, 0, 0, true);
                     }
                 case 15:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -242,20 +240,20 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 24:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (rticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
                     }
                     break;
                 case 25:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (rticks > 975 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 975 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -263,7 +261,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 26:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0.7, 0, 0, true);
                     if (ticks > 13621 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -276,10 +274,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 27:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 975 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 975 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -287,7 +285,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 28:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, 0, 0, true);
                     if (ticks > 13621 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -300,10 +298,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 29:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 975 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 975 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -311,7 +309,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 30:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, 0, 0, true);
                     if (ticks > 9632 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -324,10 +322,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 31:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (rticks > 1949 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 1949 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -335,7 +333,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 32:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, 0, 0, true);
                     if (ticks > 9632 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -348,10 +346,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 33:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -413,20 +411,20 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 42:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (rticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
                     }
                     break;
                 case 43:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 498 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 498 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -434,7 +432,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 44:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0.7, 0, 0, true);
                     if (ticks > 18488 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -447,10 +445,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 45:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 1451 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 1451 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -458,7 +456,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 46:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, 0, 0, true);
                     if (ticks > 9150 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -471,10 +469,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 47:
-                    rticks = driveTrain.getEncoderData()[1];
-                    rerror = 25.0 - rticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (rticks > 774 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 974 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -482,7 +480,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     break;
                 case 48:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - rticks / TICKS_PER_CM;
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.7, 0, 0, true);
                     if (ticks > 10595 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
@@ -495,10 +493,10 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 49:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (rticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -560,15 +558,77 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 58:
-                    rticks = driveTrain.getEncoderData()[0];
-                    rerror = 25.0 - ticks / TICKS_PER_CM;
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (rticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 500 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
                     }
                     break;
+                case 59:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0.7, 0, 0, true);
+                    if (ticks > 17337 || System.currentTimeMillis() > startuptime + 33316000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        motors.transferMethod(0);
+                        motors.intakeMethod(0);
+                        driveTrain.drive(0, 0, 0, true);
+
+                        state++;
+                    }
+                    break;
+                case 60:
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0, 0, -0.5, true);
+                    if (ticks > 974 || System.currentTimeMillis() > startuptime + 33321000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                    break;
+                case 61:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0.7, 0, 0, true);
+                    if (ticks > 2408 || System.currentTimeMillis() > startuptime + 33316000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        motors.transferMethod(0);
+                        motors.intakeMethod(0);
+                        driveTrain.drive(0, 0, 0, true);
+
+                        state++;
+                    }
+                    break;
+                case 62:
+                    ticks = driveTrain.getEncoderData()[1];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0, 0, 0.5, true);
+                    if (ticks > 974 || System.currentTimeMillis() > startuptime + 33321000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        driveTrain.drive(0, 0, 0, true);
+                    }
+                    break;
+                case 63:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 25.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(0.7, 0, 0, true);
+                    if (ticks > 5779 || System.currentTimeMillis() > startuptime + 33316000) {
+                        startuptime = System.currentTimeMillis();
+                        state++;
+                        motors.transferMethod(0);
+                        motors.intakeMethod(0);
+                        driveTrain.drive(0, 0, 0, true);
+
+                        state++;
+                    }
+                    break;    
             }
             telemetry.addData("ticks", ticks);
             telemetry.addData("error", error);
