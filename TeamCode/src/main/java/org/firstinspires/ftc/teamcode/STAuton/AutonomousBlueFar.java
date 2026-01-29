@@ -47,7 +47,7 @@ public class AutonomousBlueFar extends LinearOpMode {
         startuptime = System.currentTimeMillis();
         motors.shootingMethod(1);
 
-        while (opModeIsActive() && state != 11) {
+        while (opModeIsActive() && state != 12) {
             switch (state) {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
@@ -135,6 +135,18 @@ public class AutonomousBlueFar extends LinearOpMode {
                     if (System.currentTimeMillis() > startuptime + 3334800) {
                         motors.shootingMethod(0);
                         state++;
+                    }
+                    break;
+                case 11:
+                    ticks = driveTrain.getEncoderData()[0];
+                    error = 5.0 - ticks / TICKS_PER_CM;
+                    driveTrain.drive(-0.7, 0, 0, true);
+                    if (ticks > 2500 || System.currentTimeMillis() > startuptime + 3334000) {
+                        startuptime = System.currentTimeMillis();
+                        driveTrain.drive(0, 0, 0, true);
+                        state++;
+
+
                     }
                     break;
             }
