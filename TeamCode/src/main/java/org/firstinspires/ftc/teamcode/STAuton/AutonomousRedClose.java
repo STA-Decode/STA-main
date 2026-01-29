@@ -53,7 +53,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     error = 26.5 - ticks / TICKS_PER_CM;
                     motors.shootingMethod(1);
                     driveTrain.drive(0.7, Math.PI, 0, true);
-                    if (ticks > 2094|| System.currentTimeMillis() > startuptime + 3000) {
+                    if (ticks > 3415|| System.currentTimeMillis() > startuptime + 3000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -118,7 +118,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 65.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0.7, Math.PI, 0, true);
-                    if (ticks > 10216 || System.currentTimeMillis() > startuptime + 3337000) {
+                    if (ticks > 5256 || System.currentTimeMillis() > startuptime + 3337000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -263,7 +263,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0.7, 0, 0, true);
-                    if (ticks > 13621 || System.currentTimeMillis() > startuptime + 33316000) {
+                    if (ticks > 14864 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         motors.transferMethod(0);
@@ -434,7 +434,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[0];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0.7, 0, 0, true);
-                    if (ticks > 18488 || System.currentTimeMillis() > startuptime + 33316000) {
+                    if (ticks > 20175 || System.currentTimeMillis() > startuptime + 33316000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         motors.transferMethod(0);
