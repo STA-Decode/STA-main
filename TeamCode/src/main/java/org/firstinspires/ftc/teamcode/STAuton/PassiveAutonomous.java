@@ -47,11 +47,11 @@ public class PassiveAutonomous extends LinearOpMode {
         startuptime = System.currentTimeMillis();
         motors.shootingMethod(1);
 
-        while (opModeIsActive() && state != 2) {
+        while (opModeIsActive() && state != 1) {
             switch (state) {
                 case 0:
                     ticks = driveTrain.getEncoderData()[0];
-                    error = 25.0 - ticks / TICKS_PER_CM;
+                    error = 5.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(-0.4, 0.75 * Math.PI, 0, true);
                     if (error < 1 || System.currentTimeMillis() > startuptime + 4000) {
                         startuptime = System.currentTimeMillis();
