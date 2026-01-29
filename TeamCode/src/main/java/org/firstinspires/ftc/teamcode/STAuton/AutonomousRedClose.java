@@ -585,7 +585,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[1];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
-                    if (ticks > 974 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 1949 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -609,7 +609,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     ticks = driveTrain.getEncoderData()[1];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, 0.5, true);
-                    if (ticks > 974 || System.currentTimeMillis() > startuptime + 33321000) {
+                    if (ticks > 1949 || System.currentTimeMillis() > startuptime + 33321000) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
