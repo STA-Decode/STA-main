@@ -6,20 +6,19 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 import org.firstinspires.ftc.teamcode.RobotParts.Motors;
 import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
+import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 
 import java.util.List;
 
-//the namee is how this Opmode will show up on the driver-hub
-@TeleOp(name = "OnePlayerOpmode", group = "TeleOp")
+//the name is how this Opmode will show up on the driver-hub
+@TeleOp(group = "TeleOp")
 public class OnePlayerOpmode extends LinearOpMode {
     DriveTrain drivetrain = new DriveTrain();
     Motors Motors = new Motors();
-    //Servos Servos = new Servos();
     ServoTest ServoTest = new ServoTest();
-    private ElapsedTime runtime = new ElapsedTime();
+    private final ElapsedTime runtime = new ElapsedTime();
     @Override
     public void runOpMode() throws InterruptedException {
         drivetrain.init(hardwareMap);
@@ -29,25 +28,17 @@ public class OnePlayerOpmode extends LinearOpMode {
 
         waitForStart();
         if (isStopRequested()) return;
-        double driveMode = 0;
-        double spin = 0;
-        double chainSpeed = 0;
-        double level = 0;
         double power = 0;
         double FeederPos = 0;
-        boolean intake1Allowed = true;
-        boolean intake2Allowed = true;
-        boolean transport1Allowed = true;
-        boolean transport2Allowed = true;
         boolean driveSideways = false;
-        boolean servoChangeAllowed = true;
-        boolean shooterChangeAllowed = true;
-        boolean twintakeAllowed = true;
-        //boolean servoTimerAllowed = true;
+        boolean servoChangeAllowed = false;
+        boolean reverseShooter = false;
+        boolean outtaking = false;
         double servoTimer = 0;
-        double transferPower = 0;
+        double reverseTimer = 0;
 
-        Gamepad currentGamepad = new Gamepad(), previousGamepad = new Gamepad();
+        Gamepad currentGamepad1 = new Gamepad(), previousGamepad1 = new Gamepad(),
+                currentGamepad2 = new Gamepad(), previousGamepad2 = new Gamepad();
 
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
@@ -56,198 +47,65 @@ public class OnePlayerOpmode extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
-            previousGamepad.copy(currentGamepad);
-            currentGamepad.copy(gamepad1);
+            previousGamepad1.copy(currentGamepad1);
+            currentGamepad1.copy(gamepad1);
+            previousGamepad2.copy(currentGamepad2);
+            currentGamepad2.copy(gamepad2);
 
-            double y = -currentGamepad.left_stick_x;
-            double x = -currentGamepad.left_stick_y;
-            double rotate = -currentGamepad.right_stick_x;
+            double y = -currentGamepad1.left_stick_x;
+            double x = -currentGamepad1.left_stick_y;
+            double rotate = -currentGamepad1.right_stick_x * 1;
             double[] polarCoordinates = DriveTrain.toPolar(x, y);
-            polarCoordinates[0] = DriveTrain.exaggerateR(polarCoordinates[0]);
-            double speed = 1;
+//            polarCoordinates[0] = driveTrain.exaggerateR(polarCoordinates[0]);
 
             //This is the intake
-            if (gamepad1.x && twintakeAllowed)
-            {
-                if (spin == 0)
-                {
-                    spin = 1;
-                    transferPower = 1;
-                }
-                else
-                {
-                    spin = 0;
-                    transferPower = 0;
-                }
-                twintakeAllowed = false;
-            }
-            if (!gamepad1.x)
-            {
-                twintakeAllowed = true;
+            Motors.intakeMethod(currentGamepad1.right_trigger * -1 - currentGamepad1.left_trigger * -1);
 
+            Motors.transferMethod(currentGamepad2.right_trigger - currentGamepad2.left_trigger);
+
+            if (currentGamepad1.right_bumper && !previousGamepad2.right_bumper) {
+                outtaking ^= true;
+                Motors.shootingMethod(outtaking ? 1 : 0);
             }
 
-            if (gamepad1.dpad_down && transport1Allowed)
-            {
-                if (transferPower == 0)
-                {
-
-                    transferPower = 1;
-                }
-                else
-                {
-                    transferPower = 0;
-                }
-                transport1Allowed = false;
+            if (currentGamepad1.y && !previousGamepad1.y) {
+                driveSideways = !driveSideways;
             }
 
-            if (!gamepad1.dpad_down)
-            {
-                transport1Allowed = true;
-            }
-
-            if (gamepad1.dpad_up && transport2Allowed)
-            {
-                if (transferPower == 0)
-                {
-
-                    transferPower = -1;
-                }
-                else
-                {
-                    transferPower = 0;
-                }
-                transport2Allowed = false;
-            }
-
-            if (!gamepad1.dpad_up)
-            {
-                transport2Allowed = true;
-            }
-
-            if (gamepad1.dpad_left && intake1Allowed)
-            {
-                if (spin == 0)
-                {
-
-                    spin = 1;
-                }
-                else
-                {
-                    spin = 0;
-                }
-                intake1Allowed = false;
-            }
-
-            if (!gamepad1.dpad_left)
-            {
-                intake1Allowed = true;
-            }
-
-            if (gamepad1.dpad_right && intake2Allowed)
-            {
-                if (spin == 0)
-                {
-
-                    spin = -1;
-                }
-                else
-                {
-                    spin = 0;
-                }
-                intake2Allowed = false;
-            }
-
-            if (!gamepad1.dpad_right)
-            {
-                intake2Allowed = true;
-            }
-
-            if (gamepad1.left_bumper)
-            {
-                level = 1;
-            }
-
-            if (gamepad1.right_bumper)
-            {
-                level = 0;
-            }
-
-            if (gamepad1.a && !previousGamepad.a) {
-                if (power == 0) power = 1;
-                else power = 0;
-            }
-
-            if (gamepad1.y && !previousGamepad.y) {
-                if (driveSideways) driveSideways = false;
-                else driveSideways = true;
-            }
-
-            if (gamepad1.b && servoChangeAllowed)
-            {
+            if (currentGamepad1.left_bumper && !previousGamepad2.left_bumper && !servoChangeAllowed) {
                 servoTimer = runtime.milliseconds();
-
-                FeederPos = 0.450;
-            }
-
-            if (runtime.milliseconds() > servoTimer + 0.35)
-            {
-                FeederPos = 0;
-            }
-
-            if (FeederPos == 0)
-            {
                 servoChangeAllowed = true;
+                ServoTest.setSevenPos(0.450);
             }
 
-
-
-
-            //Let hiet niet op dit is tijdelijke fucked up code
-
-            /*if (gamepad2.b && servoTimerAllowed)
-            {
-                servoTimer = runtime.milliseconds();
-                servoTimerAllowed = false;
+            if (servoChangeAllowed) {
+                if (runtime.milliseconds() > servoTimer + 400) {
+                    ServoTest.setSevenPos(0);
+                    servoChangeAllowed = false;
+                }
             }
 
-            if (!gamepad2.b)
-            {
-                servoTimer = 1101;
-                servoTimerAllowed = true;
+            if (currentGamepad1.a && !previousGamepad1.a && !reverseShooter) {
+                reverseTimer = runtime.milliseconds();
+                power = -1;
+                Motors.shootingMethod(power);
+                reverseShooter = true;
             }
 
-            if (runtime.milliseconds() < servoTimer + 400)
-            {
-                ServoTest.setSevenPos(0.475);
+            if (reverseShooter) {
+                if (runtime.milliseconds() > reverseTimer + 100) {
+                    power = 0;
+                    Motors.shootingMethod(power);
+                    reverseShooter = false;
+                }
             }
-
-            if (runtime.milliseconds() < servoTimer + 200)
-            {
-                ServoTest.setSevenPos(0);
-            }
-
-            if (runtime.milliseconds() > servoTimer + 525 && runtime.milliseconds() < servoTimer + 1100){
-                spin = 1;
-                transferPower = 1;
-            }*/
-
-
-
 
             drivetrain.drive(polarCoordinates[0], polarCoordinates[1], rotate, driveSideways);
-            ServoTest.setSevenPos(FeederPos);
             telemetry.addData("servo pos",FeederPos);
             telemetry.addData("toggle",servoChangeAllowed);
             telemetry.addData("power",power);
+            drivetrain.addTelemetry(telemetry);
             telemetry.update();
-            Motors.intakeMethod(spin);
-            Motors.shootingMethod(power);
-            Motors.transferMethod(transferPower);
-            //Servos.Lift(level);
         }
-
-
-
     }
 }
