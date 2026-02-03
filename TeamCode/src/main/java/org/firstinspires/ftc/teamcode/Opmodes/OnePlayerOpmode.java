@@ -72,7 +72,7 @@ public class OnePlayerOpmode extends LinearOpMode {
                 driveSideways = !driveSideways;
             }
 
-            if (currentGamepad1.left_bumper && !previousGamepad2.left_bumper && !servoChangeAllowed) {
+            if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper && !servoChangeAllowed) {
                 servoTimer = runtime.milliseconds();
                 servoChangeAllowed = true;
                 ServoTest.setSevenPos(0.450);
