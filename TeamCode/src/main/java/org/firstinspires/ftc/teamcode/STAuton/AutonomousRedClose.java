@@ -53,7 +53,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     error = 26.5 - ticks / TICKS_PER_CM;
                     motors.shootingMethod(1);
                     driveTrain.drive(0.7, Math.PI, 0, true);
-                    if (ticks > 3415|| System.currentTimeMillis() > startuptime + 3000) {
+                    if (ticks > 3415 || System.currentTimeMillis() > startuptime + 4500) {
                         startuptime = System.currentTimeMillis();
                         state++;
                         driveTrain.drive(0, 0, 0, true);
@@ -61,20 +61,20 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 1:
-                    if (System.currentTimeMillis() > startuptime + 3400) {
+                    if (System.currentTimeMillis() > startuptime + 5500) {
                         state++;
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 2:
-                    if (System.currentTimeMillis() > startuptime +3800) {
+                    if (System.currentTimeMillis() > startuptime + 6000) {
                         state++;
-                        motors.intakeMethod(1);
-                        motors.transferMethod(1);
+                        motors.intakeMethod(-1);
+                        motors.transferMethod(-1);
                     }
                     break;
                 case 3:
-                    if (System.currentTimeMillis() > startuptime + 332000) {
+                    if (System.currentTimeMillis() > startuptime + 6500) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
@@ -82,20 +82,20 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 4:
-                    if (System.currentTimeMillis() > startuptime + 332400) {
+                    if (System.currentTimeMillis() > startuptime + 7000) {
                         state++;
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 5:
-                    if (System.currentTimeMillis() > startuptime + 3332800) {
+                    if (System.currentTimeMillis() > startuptime + 7500) {
                         state++;
-                        motors.intakeMethod(1);
-                        motors.transferMethod(1);
+                        motors.intakeMethod(-1);
+                        motors.transferMethod(-1);
                     }
                     break;
                 case 6:
-                    if (System.currentTimeMillis() > startuptime + 3333200) {
+                    if (System.currentTimeMillis() > startuptime + 8000) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
@@ -103,19 +103,19 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 7:
-                    if (System.currentTimeMillis() > startuptime + 3333600) {
+                    if (System.currentTimeMillis() > startuptime + 8500) {
                         state++;
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 8:
-                    if (System.currentTimeMillis() > startuptime + 3334800) {
+                    if (System.currentTimeMillis() > startuptime + 9000) {
                         motors.shootingMethod(0);
                         state++;
                     }
                     break;
                 case 9:
-                    ticks = driveTrain.getEncoderData()[0];
+                    ticks = driveTrain.getEncoderData()[1];
                     error = 65.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0.7, Math.PI, 0, true);
                     if (ticks > 5256 || System.currentTimeMillis() > startuptime + 3337000) {
@@ -156,7 +156,7 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 13:
-                    ticks = driveTrain.getEncoderData()[0];
+                    ticks = driveTrain.getEncoderData()[1];
                     error = 25.0 - ticks / TICKS_PER_CM;
                     driveTrain.drive(0, 0, -0.5, true);
                     if (ticks > 1949 || System.currentTimeMillis() > startuptime + 33316000) {
@@ -188,22 +188,24 @@ public class AutonomousRedClose extends LinearOpMode {
                         driveTrain.drive(0, 0, 0, true);
                     }
                     break;
+                // tot hier//
                 case 16:
-                    if (System.currentTimeMillis() > startuptime + 33323000) {
+                    if (System.currentTimeMillis() > startuptime + 4900) {
                         state++;
+                        startuptime = System.currentTimeMillis();
                         motors.shootingMethod(1);
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 17:
-                    if (System.currentTimeMillis() > startuptime + 33325000) {
+                    if (System.currentTimeMillis() > startuptime + 5300) {
                         state++;
                         motors.intakeMethod(1);
                         motors.transferMethod(1);
                     }
                     break;
                 case 18:
-                    if (System.currentTimeMillis() > startuptime + 33327000) {
+                    if (System.currentTimeMillis() > startuptime + 5600) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
@@ -211,20 +213,20 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 19:
-                    if (System.currentTimeMillis() > startuptime + 33327250) {
+                    if (System.currentTimeMillis() > startuptime + 5900) {
                         state++;
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 20:
-                    if (System.currentTimeMillis() > startuptime + 33327500) {
+                    if (System.currentTimeMillis() > startuptime + 6300) {
                         state++;
                         motors.intakeMethod(1);
                         motors.transferMethod(1);
                     }
                     break;
                 case 21:
-                    if (System.currentTimeMillis() > startuptime + 33327750) {
+                    if (System.currentTimeMillis() > startuptime + 6600) {
                         state++;
                         motors.transferMethod(0);
                         motors.intakeMethod(0);
@@ -232,13 +234,13 @@ public class AutonomousRedClose extends LinearOpMode {
                     }
                     break;
                 case 22:
-                    if (System.currentTimeMillis() > startuptime + 33328000) {
+                    if (System.currentTimeMillis() > startuptime + 6900) {
                         state++;
                         feeder.setSevenPos(0);
                     }
                     break;
                 case 23:
-                    if (System.currentTimeMillis() > startuptime + 33328250) {
+                    if (System.currentTimeMillis() > startuptime + 7500) {
                         motors.shootingMethod(0);
                         state++;
                     }

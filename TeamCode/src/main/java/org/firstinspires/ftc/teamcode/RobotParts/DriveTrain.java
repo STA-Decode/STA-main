@@ -71,7 +71,7 @@ public class DriveTrain
      * @return 1: strafe; 2: left forward; 3: right forward
      */
     public int[] getEncoderData() {
-        return new int[] {rightFront.getCurrentPosition()};
+        return new int[] {rightFront.getCurrentPosition(), leftFront.getCurrentPosition()};
     }
 
     /**
