@@ -59,9 +59,9 @@ public class OnePlayerOpmode extends LinearOpMode {
 //            polarCoordinates[0] = driveTrain.exaggerateR(polarCoordinates[0]);
 
             //This is the intake
-            Motors.intakeMethod(currentGamepad1.right_trigger * -1 - currentGamepad1.left_trigger * -1);
+            Motors.intakeMethod(currentGamepad1.right_trigger * -1);
 
-            Motors.transferMethod(currentGamepad2.right_trigger - currentGamepad2.left_trigger);
+            Motors.transferMethod(currentGamepad1.left_trigger);
 
             if (currentGamepad1.right_bumper && !previousGamepad2.right_bumper) {
                 outtaking ^= true;
