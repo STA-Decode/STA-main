@@ -83,6 +83,6 @@ public class SwerveDrivetrain
         DeanLeft.setPower(x + y - rotate);
         DeanRight.setPower(x + y + rotate);
     }
-
+//384.5 encoder resolution
 
 }

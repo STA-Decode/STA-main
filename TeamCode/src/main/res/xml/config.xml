@@ -7,34 +7,34 @@
 
 
 
-    <!--This line declares the Control Hub Portal which contains both hubs. It can be copy-pasted-->
+    This line declares the Control Hub Portal which contains both hubs. It can be copy-pasted-->
     <LynxUsbDevice name="Control Hub Portal" serialNumber="(embedded)" parentModuleAddress="173">
 
         <!--This line declares the Expansion Hub. We use RS485 connection, so we declare it with a port.-->
-        <LynxModule name="Expansion Hub 1" port="1"> <!-- You can see the port on the hub or on the REV Hardware Client. -->
+        <!--<LynxModule name="Expansion Hub 1" port="1">--> <!-- You can see the port on the hub or on the REV Hardware Client. -->
 
             <!--These are the Expansion Hub's motors. Change the ports and names of your motors.-->
-            <goBILDA5202SeriesMotor name="intake" port="0"/>
-            <goBILDA5202SeriesMotor name="shooter1" port="1"/>
-            <goBILDA5202SeriesMotor name="shooter2" port="2"/>
-            <goBILDA5202SeriesMotor name="transfer" port="3"/>
+<!--            <goBILDA5202SeriesMotor name="intake" port="0"/>-->
+<!--            <goBILDA5202SeriesMotor name="shooter1" port="1"/>-->
+<!--            <goBILDA5202SeriesMotor name="shooter2" port="2"/>-->
+<!--            <goBILDA5202SeriesMotor name="transfer" port="3"/>-->
 
 
             <!--This line signifies that the Expansion Hub configuration has ended.-->
-        </LynxModule>
+<!--        </LynxModule>-->
 
         <!--This line declares the Control Hub and can be copy-pasted.-->
         <LynxModule name="Control Hub" port="173">
 
             <!--These are the Control Hub's motors. Change the ports and names of your motors.-->
-            <goBILDA5202SeriesMotor name="right_front" port="0"/>
-            <goBILDA5202SeriesMotor name="left_front" port="1"/>
-            <goBILDA5202SeriesMotor name="right_back" port="2"/>
-            <goBILDA5202SeriesMotor name="left_back" port="3"/>
+            <goBILDA5202SeriesMotor name="IgorLeft" port="0"/>
+            <goBILDA5202SeriesMotor name="IgorRight" port="1"/>
+            <goBILDA5202SeriesMotor name="DeanLeft" port="2"/>
+            <goBILDA5202SeriesMotor name="DeanRight" port="3"/>
 
             <!--These are the Control Hub's servos. Change the ports and names of your servos.-->
 <!--                <Servo name="" port="0"/>-->
-                <Servo name="feeder" port="1"/>
+<!--            <Servo name="" port="1"/>-->
 <!--            <Servo name="" port="2"/>-->
 <!--            <Servo name="" port="3"/>-->
 <!--            <Servo name="" port="4"/>-->
