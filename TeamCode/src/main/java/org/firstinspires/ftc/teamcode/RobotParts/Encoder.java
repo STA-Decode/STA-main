@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.RobotParts;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -34,6 +36,9 @@ public class Encoder{
     double newTarget2;
     double newTarget3;
     double newTarget4;
+    double y = gamepad1.left_stick_y;
+    double x = gamepad1.left_stick_x;
+    double joystickpos = Math.sqrt(x * x + y * y);
 
     public void init(HardwareMap hardwareMap, Telemetry telemetry){
 

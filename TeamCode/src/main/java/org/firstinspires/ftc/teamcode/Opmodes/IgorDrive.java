@@ -105,6 +105,8 @@ public class IgorDrive extends LinearOpMode {
             telemetry.addData("toggle",servoChangeAllowed);
             telemetry.addData("power",power);
             drivetrain.addTelemetry(telemetry);
+            telemetry.addData("JoystickTestX", x);
+            telemetry.addData("JoystickTestY", y);
             telemetry.update();
         }
     }

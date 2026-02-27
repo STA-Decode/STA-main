@@ -26,6 +26,10 @@ public class EncoderTest extends LinearOpMode {
 
         waitForStart();
 
+        Gamepad currentGamepad = new Gamepad(), previousGamepad = new Gamepad();
+
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
         while (opModeIsActive()) {
 
             if (gamepad1.x) {
@@ -44,10 +48,11 @@ public class EncoderTest extends LinearOpMode {
 
             encoder.updateTelemetry();
 
+
             telemetry.update();
 
 
-            Encoder.Encoder(turnage);
+
         }
     }
 }

@@ -321,6 +321,7 @@ public class AutonomousRedClose extends LinearOpMode {
 //                    }
 //                    break;
 //            }
+            }
         }
     }
 }

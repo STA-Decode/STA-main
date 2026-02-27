@@ -28,42 +28,43 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class DriveTrain
 {
     //Here, we declare our parts and other stuff, so that the computer knows they exist, and what type they are (type like servo, motor, etc.)
-    private DcMotorEx leftFront;
-    private DcMotorEx rightFront;
-    private DcMotorEx leftBack;
-    private DcMotorEx rightBack;
+    private DcMotorEx IgorLeft;
+    private DcMotorEx IgorRight;
+    private DcMotorEx DeanLeft;
+    private DcMotorEx DeanRight;
+
 
     //When you start your main program you have to call init() on every class used.
     //In the init, we do stuff that has to happen exactly once in our program
     public void init(HardwareMap map){
         //Here, we are linking the motors we just declared with actual motors on our robot. In your HardwareMap, you will assign a name to different motors (making the HardwareMap doesn't happen in the code, just ask someone how to do it and be prepared for a lot of following wires)
-        leftFront = map.get(DcMotorEx.class, "left_front");
-        rightFront = map.get(DcMotorEx.class, "right_front");
-        leftBack = map.get(DcMotorEx.class, "left_back");
-        rightBack = map.get(DcMotorEx.class, "right_back");
+        IgorLeft = map.get(DcMotorEx.class, "IgorLeft");
+        IgorRight = map.get(DcMotorEx.class, "IgorRight");
+        DeanLeft = map.get(DcMotorEx.class, "DeanLeft");
+        DeanRight = map.get(DcMotorEx.class, "DeanRight");
 
         //These lines make sure that when the motor is unpowered, it won't move due to external forces like gravity, but it's actively trying to stay in it's current position
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        IgorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        IgorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DeanLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        DeanRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        IgorLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         resetEncoders();
     }
 
     public void resetEncoders() {
         //Strafe encoder
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        IgorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        IgorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void addTelemetry(Telemetry telemetry) {
-        telemetry.addData("lf", leftFront.getPower());
-        telemetry.addData("rf", rightFront.getPower());
-        telemetry.addData("lb", leftBack.getPower());
-        telemetry.addData("rb", rightBack.getPower());
+        telemetry.addData("lf", IgorLeft.getPower());
+        telemetry.addData("rf", IgorRight.getPower());
+        telemetry.addData("lb", DeanLeft.getPower());
+        telemetry.addData("rb", DeanRight.getPower());
     }
 
     /**
@@ -71,7 +72,7 @@ public class DriveTrain
      * @return 1: strafe; 2: left forward; 3: right forward
      */
     public int[] getEncoderData() {
-        return new int[] {rightFront.getCurrentPosition(), leftFront.getCurrentPosition()};
+        return new int[] {IgorRight.getCurrentPosition(), IgorLeft.getCurrentPosition()};
     }
 
     /**
@@ -82,10 +83,10 @@ public class DriveTrain
         //quick note: a positive speed will make it turn counterclockwise
 
         //Here, we are setting the power (a value between -1 and 1) to our motors
-        leftFront.setPower(speed);
-        leftBack.setPower(speed);
-        rightFront.setPower(speed);
-        rightBack.setPower(speed);
+        IgorLeft.setPower(speed);
+        IgorRight.setPower(speed);
+        DeanLeft.setPower(speed);
+        DeanRight.setPower(speed);
         //IMPORTANT: if you notice the robots wheels are not turning in the direction you expected, it is probably because of the fact you used gears in your robot. This can make the turning-direction flip, so if thats the case, just put a "-" before "speed" for the motor having problems
     }
 
@@ -110,11 +111,12 @@ public class DriveTrain
         double[] cartesianCoordinates = toCartesian(r, theta);
         double x = cartesianCoordinates[0];
         double y = cartesianCoordinates[1];
-        leftFront.setPower(-x + y + rotate);
-        leftBack.setPower(x + y - rotate);
-        rightBack.setPower(-x + y - rotate);
-        rightFront.setPower(x + y + rotate);
+        IgorLeft.setPower(-x + y + rotate);
+        IgorRight.setPower(x + y - rotate);
+        DeanLeft.setPower(-x + y - rotate);
+        DeanRight.setPower(x + y + rotate);
     }
+
 
 
 }
