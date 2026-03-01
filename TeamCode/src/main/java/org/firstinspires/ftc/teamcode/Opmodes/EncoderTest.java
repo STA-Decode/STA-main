@@ -42,10 +42,10 @@ public class EncoderTest extends LinearOpMode {
                 angle += 2 * Math.PI;
             }
 
-            JoyStickPos = (angle / (2 * Math.PI)) * 384.5;
+
 
             encoder.updateTelemetry();
-            encoder.encoder(JoyStickPos);
+            encoder.encoder(x, y);
 
             telemetry.update();
 

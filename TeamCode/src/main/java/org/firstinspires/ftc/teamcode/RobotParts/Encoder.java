@@ -31,10 +31,6 @@ public class Encoder{
     DcMotor DeanRight;
 
     double ticks = 384.5;
-    double JoyStickPos = 0;
-    double y = gamepad1.left_stick_y;
-    double x = gamepad1.left_stick_x;
-
 
     public void init(HardwareMap hardwareMap, Telemetry telemetry){
 
@@ -45,11 +41,6 @@ public class Encoder{
         IgorRight = hardwareMap.get(DcMotor.class, "IgorRight");
         DeanLeft = hardwareMap.get(DcMotor.class, "DeanLeft");
         DeanRight = hardwareMap.get(DcMotor.class, "DeanRight");
-
-        IgorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        IgorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        DeanLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        DeanRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         IgorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         IgorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -63,19 +54,34 @@ public class Encoder{
 
 
 
+    private double lastTarget = 0;
+    public void encoder(double JoyStickX, double JoyStickY) {
 
-    public void encoder(double JoyStickPos) {
+        if (Math.hypot(JoyStickX, JoyStickY) > 0.1) {
+            double angle = Math.atan2(JoyStickY, JoyStickX);
+            if (angle < 0) {
+                angle += 2 * Math.PI;
+            }
 
-        double rate = 0.01;
+            double newTarget = (angle / (2 * Math.PI)) * ticks;
+
+            double delta = newTarget - lastTarget;
+            if (delta > ticks / 2) delta -= ticks;
+            if (delta < -ticks / 2) delta += ticks;
+
+            lastTarget += delta;
+        }
+
+        double rate = 0.004;
 
         double current = IgorLeft.getCurrentPosition();
-        double error = JoyStickPos - current;
+        double error = lastTarget - current;
 
         if (error > ticks / 2) error -= ticks;
         if (error < -ticks / 2) error += ticks;
 
         double power = error * rate;
-        if (Math.abs(error) < 2) power = 0;
+        if (Math.abs(error) < 5) power = 0;
         power = Math.max(-1, Math.min(1, power));
 
 
