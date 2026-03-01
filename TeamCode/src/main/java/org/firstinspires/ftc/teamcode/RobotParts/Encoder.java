@@ -31,14 +31,10 @@ public class Encoder{
     DcMotor DeanRight;
 
     double ticks = 384.5;
-
-    double newTarget1;
-    double newTarget2;
-    double newTarget3;
-    double newTarget4;
+    double JoyStickPos = 0;
     double y = gamepad1.left_stick_y;
     double x = gamepad1.left_stick_x;
-    double joystickpos = Math.sqrt(x * x + y * y);
+
 
     public void init(HardwareMap hardwareMap, Telemetry telemetry){
 
@@ -50,16 +46,6 @@ public class Encoder{
         DeanLeft = hardwareMap.get(DcMotor.class, "DeanLeft");
         DeanRight = hardwareMap.get(DcMotor.class, "DeanRight");
 
-        telemetry.addData("Hardware: ", "Initialized");
-
-
-    }
-
-
-
-
-    public void Encoder(int turnage) {
-
         IgorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         IgorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         DeanLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -70,25 +56,34 @@ public class Encoder{
         DeanLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         DeanRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        newTarget1 = ticks / turnage;
-        newTarget2 = ticks / turnage;
-        newTarget3 = ticks / turnage;
-        newTarget4 = ticks / turnage;
+        telemetry.addData("Hardware: ", "Initialized");
 
-        IgorLeft.setTargetPosition((int ) newTarget1);
-        IgorRight.setTargetPosition((int) newTarget2);
-        DeanLeft.setTargetPosition((int) newTarget3);
-        DeanRight.setTargetPosition((int) newTarget4);
 
-        IgorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        IgorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DeanLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        DeanRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
 
-        IgorLeft.setPower(1);
-        IgorRight.setPower(1);
-        DeanLeft.setPower(1);
-        DeanRight.setPower(1);
+
+
+
+    public void encoder(double JoyStickPos) {
+
+        double rate = 0.01;
+
+        double current = IgorLeft.getCurrentPosition();
+        double error = JoyStickPos - current;
+
+        if (error > ticks / 2) error -= ticks;
+        if (error < -ticks / 2) error += ticks;
+
+        double power = error * rate;
+        if (Math.abs(error) < 2) power = 0;
+        power = Math.max(-1, Math.min(1, power));
+
+
+
+        IgorLeft.setPower(power);
+        IgorRight.setPower(power);
+        DeanLeft.setPower(power);
+        DeanRight.setPower(power);
 
 
 

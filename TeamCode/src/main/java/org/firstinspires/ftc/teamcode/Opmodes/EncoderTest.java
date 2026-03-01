@@ -17,7 +17,9 @@ import java.util.List;
 public class EncoderTest extends LinearOpMode {
 
     Encoder encoder = new Encoder();
-    double turnage = 0;
+    double JoyStickPos = 0;
+
+
 
     @Override
     public void runOpMode() {
@@ -32,22 +34,18 @@ public class EncoderTest extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            if (gamepad1.x) {
-                if (turnage == 2) {
-                    turnage = 1;
-                }
-                else {
-                    turnage = 2;
-                }
+            double x = gamepad1.left_stick_x;
+            double y = gamepad1.left_stick_y;
+
+            double angle = Math.atan2(x, y);
+            if (angle < 0) {
+                angle += 2 * Math.PI;
             }
 
-
-            if (gamepad1.a) {
-                encoder.Encoder((int)turnage);
-            }
+            JoyStickPos = (angle / (2 * Math.PI)) * 384.5;
 
             encoder.updateTelemetry();
-
+            encoder.encoder(JoyStickPos);
 
             telemetry.update();
 

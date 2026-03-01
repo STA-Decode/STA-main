@@ -1,20 +1,14 @@
-package org.firstinspires.ftc.teamcode.Opmodes;
+    package Tests;
 
-import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.RobotParts.Motors;
-import org.firstinspires.ftc.teamcode.RobotParts.ServoTest;
 import org.firstinspires.ftc.teamcode.RobotParts.DriveTrain;
 
-import java.util.List;
 
-
-@TeleOp(name = "Ticktest", group = "TeleOp")
-public class Ticktest extends LinearOpMode {
+    @TeleOp(name = "Ticktest", group = "TeleOp")
+public class    Ticktest extends LinearOpMode {
     private final int TICKS_PER_REVOLUTION = 8192;
     private final double WHEEL_DIAMETER_MM = 34.0;
     private final double TICKS_PER_CM = TICKS_PER_REVOLUTION / (WHEEL_DIAMETER_MM * Math.PI);
