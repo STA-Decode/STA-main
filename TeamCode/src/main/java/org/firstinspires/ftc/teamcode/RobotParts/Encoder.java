@@ -34,6 +34,7 @@ public class Encoder{
 
     public void init(HardwareMap hardwareMap, Telemetry telemetry){
 
+
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
 
@@ -71,20 +72,33 @@ public class Encoder{
 
             lastTarget += delta;
         }
+//        else {
+//            IgorLeft.setPower(0);
+//            IgorRight.setPower(0);
+//            DeanLeft.setPower(0);
+//            DeanRight.setPower(0);
+//        }
 
-        double rate = 0.004;
+        double rateSteer = 0.005;
+        double rateDrive = 1;
 
         double current = IgorLeft.getCurrentPosition();
         double error = lastTarget - current;
+        double anglerror = (error / ticks) * 2 * Math.PI;
 
         if (error > ticks / 2) error -= ticks;
         if (error < -ticks / 2) error += ticks;
 
-        double power = error * rate;
+        double power = error * rateSteer;
         if (Math.abs(error) < 5) power = 0;
         power = Math.max(-1, Math.min(1, power));
 
+        //double JoyStickStrength = Math.hypot(JoyStickX, JoyStickY);
+        //double powerD = rateDrive * Math.cos(anglerror) * JoyStickStrength;
+        //if (Math.abs(error) > ticks / 2) powerD = 0;
 
+        //double power = powerS + powerD;
+        //power = Math.max(-1, Math.min(1, power));
 
         IgorLeft.setPower(power);
         IgorRight.setPower(power);

@@ -37,12 +37,6 @@ public class EncoderTest extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
 
-            double angle = Math.atan2(x, y);
-            if (angle < 0) {
-                angle += 2 * Math.PI;
-            }
-
-
 
             encoder.updateTelemetry();
             encoder.encoder(x, y);
